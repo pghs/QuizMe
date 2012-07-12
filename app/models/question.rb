@@ -9,34 +9,42 @@ class Question < ActiveRecord::Base
       nil
   end
 
-  def post_to_twitter(current_acct)
+  def post_new_to_twitter(current_acct)
     authorize = UrlShortener::Authorize.new 'o_29ddlvmooi', 'R_4ec3c67bda1c95912185bc701667d197'
     shortener = UrlShortener::Client.new authorize
     tweet = self.create_tweet
     puts tweet
     if tweet
-      url = shortener.shorten("#{self.url}?s=twi&lt=initial&c=#{current_acct.twi_screen_name}").urls
-      tweet += " #{url}"
-      res = current_acct.twitter.update(tweet)
-      puts res.inspect
-      Post.create(:account_id => current_acct.id,
-                  :question_id => self.id,
-                  :provider => 'twitter',
-                  :text => tweet,
-                  :url => url,
-                  :link_type => 'initial',
-                  :post_type => 'status',
-                  :provider_post_id => res.id.to_s)
+      begin
+        url = shortener.shorten("#{self.url}?s=twi&lt=initial&c=#{current_acct.twi_screen_name}").urls
+        res = current_acct.twitter.update("#{tweet} #{url}")
+        puts res.inspect
+        Post.create(:account_id => current_acct.id,
+                    :question_id => self.id,
+                    :provider => 'twitter',
+                    :text => tweet,
+                    :url => url,
+                    :link_type => 'initial',
+                    :post_type => 'status',
+                    :provider_post_id => res.id.to_s)
+      rescue e
+        puts "error posting new tweet: #{e}"
+      end
     end
   end
 
   def self.tweet_next_question(current_acct)
-    recent_posts = Post.where(:account_id => current_acct.id).order('DESC').limit(100).collect(&:question_id)
-    #@TODO sort this method so that no repeat posts go out
-    questions = Question.where(:studyegg_id => BIO)
+    recent_question_ids = Post.where(:account_id => current_acct.id).order('ASC').limit(100).collect(&:question_id)
+    questions = Question.where("studyegg_id in (?) and id not in (?)", BIO, recent_question_ids)
 
     q = questions.sample
-    q.post_to_twitter if q.create_tweet
+    i = 0
+    while q.create_tweet.nil?
+      q = questions.sample
+      i+=1
+      raise 'COULD NOT FIND NEW QUESTION TO TWEET' if i>100
+    end
+    q.post_new_to_twitter(current_acct)
   end
 
 

@@ -12,24 +12,23 @@ task :check_mentions => :environment do
 end
 
 task :tweet => :environment do
+	t = Time.now
 	accounts = Account.where(:id => 1)#where(:twi_oauth_token not nil)
 	accounts.each do |a|
-		Question.tweet_next_question(a)
+		if t.hour%3==0
+			p = a.posts.last
+			p.repost_tweet('Review: ')
+		else
+			Question.tweet_next_question(a)
+		end
 		sleep(10)
 	end
 end
 
 task :save_stats => :environment do
-	d = Date.today
-	id = Question.where("updated_at > ? and tweet_id > 0", Time.now-1.days).first.tweet_id
-	yesterday_stats = Stat.last
-
-	rts_today = Stat.retweet_count(id)
-	rts = rts_today + yesterday_stats.rts
-	followers = Stat.follower_count
-	followers_delta = followers - yesterday_stats.followers
-	friends = Stat.friend_count
-	mentions_today = Stat.mention_count(id)
-	mentions = mentions_today + yesterday_stats.mentions
-
+	accounts = Account.where(:twi_oauth_token not nil)
+	accounts.each do |a|
+		Stat.collect_daily_stats_for(a)
+		sleep(10)
+	end
 end

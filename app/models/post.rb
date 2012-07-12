@@ -3,6 +3,27 @@ class Post < ActiveRecord::Base
 	belongs_to :account
 	has_many :mentions
 
+	def repost_tweet(prefix='')
+		authorize = UrlShortener::Authorize.new 'o_29ddlvmooi', 'R_4ec3c67bda1c95912185bc701667d197'
+    shortener = UrlShortener::Client.new authorize
+    begin
+      url = shortener.shorten("#{self.question.url}?s=twi&lt=repost&c=#{current_acct.twi_screen_name}").urls
+      account = Account.find(self.account_id)
+      res = account.twitter.update("#{prefix}#{self.text} #{url}")
+      puts res.inspect
+      Post.create(:account_id => current_acct.id,
+                  :question_id => self.question.id,
+                  :provider => 'twitter',
+                  :text => "#{prefix}#{self.text}",
+                  :url => url,
+                  :link_type => 'repost',
+                  :post_type => 'status',
+                  :provider_post_id => res.id.to_s)
+    rescue e
+      puts "error reposting tweet: #{e}"
+    end
+	end
+
 	# def self.get_old_tweets(current_acct)
 	# 	client = current_acct.twitter
 	# 	posts = client.user_timeline(current_acct.twi_screen_name, {:count => 100, :exclude_replies => true})
