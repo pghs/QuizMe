@@ -16,21 +16,17 @@ class Question < ActiveRecord::Base
     tweet = self.create_tweet
     puts tweet
     if tweet
-      begin
-        url = shortener.shorten("#{self.url}?s=twi&lt=initial&c=#{current_acct.twi_screen_name}").urls
-        res = current_acct.twitter.update("#{tweet} #{url}")
-        puts res.inspect
-        Post.create(:account_id => current_acct.id,
-                    :question_id => self.id,
-                    :provider => 'twitter',
-                    :text => tweet,
-                    :url => url,
-                    :link_type => 'initial',
-                    :post_type => 'status',
-                    :provider_post_id => res.id.to_s)
-      rescue e
-        puts "error posting new tweet: #{e}"
-      end
+      url = shortener.shorten("#{self.url}?s=twi&lt=initial&c=#{current_acct.twi_screen_name}").urls
+      res = current_acct.twitter.update("#{tweet} #{url}")
+      puts res.inspect
+      Post.create(:account_id => current_acct.id,
+                  :question_id => self.id,
+                  :provider => 'twitter',
+                  :text => tweet,
+                  :url => url,
+                  :link_type => 'initial',
+                  :post_type => 'status',
+                  :provider_post_id => res.id.to_s)
     end
   end
 

@@ -13,7 +13,7 @@ class CreateStats < ActiveRecord::Migration
       t.integer :mentions
       t.integer :mentions_today
       t.integer :questions_answered
-      t.integer :questions_answered_today
+      t.integer :questions_answered_today, :default => 0
       t.integer :unique_active_users
       t.integer :three_day_inactive_users
       t.integer :one_week_inactive_users

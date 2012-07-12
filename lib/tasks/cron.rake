@@ -15,12 +15,12 @@ task :tweet => :environment do
 	t = Time.now
 	accounts = Account.where(:id => 1)#where(:twi_oauth_token not nil)
 	accounts.each do |a|
-		if t.hour%3==0
-			p = a.posts.last
-			p.repost_tweet('Review: ')
-		else
+		# if t.hour%3==0
+		# 	p = a.posts.last
+		# 	p.repost_tweet('Review: ')
+		# else
 			Question.tweet_next_question(a)
-		end
+		# end
 		sleep(10)
 	end
 end
