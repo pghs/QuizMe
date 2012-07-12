@@ -16,6 +16,8 @@ class AccountsController < ApplicationController
 
   def edit
     @account = Account.find(params[:id])
+    @studyegg_ids = Question.group(:studyegg_id).count.map{|k,v| k}
+    puts @studyegg_ids
     session[:account_id] = params[:id]
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711203448) do
+ActiveRecord::Schema.define(:version => 20120712163709) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(:version => 20120711203448) do
     t.string   "tum_oauth_token"
     t.string   "tum_oauth_secret"
     t.string   "tum_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "lessonaccesses", :force => true do |t|
+    t.integer  "account_id"
+    t.integer  "studyegg_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,6 +70,28 @@ ActiveRecord::Schema.define(:version => 20120711203448) do
     t.text     "question"
     t.text     "answer"
     t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stats", :force => true do |t|
+    t.datetime "date"
+    t.integer  "followers"
+    t.integer  "followers_delta"
+    t.integer  "friends"
+    t.integer  "friends_delta"
+    t.integer  "tweets"
+    t.integer  "tweets_delta"
+    t.integer  "rts"
+    t.integer  "rts_today"
+    t.integer  "mentions"
+    t.integer  "mentions_today"
+    t.integer  "questions_answered"
+    t.integer  "questions_answered_today"
+    t.integer  "unique_active_users"
+    t.integer  "three_day_inactive_users"
+    t.integer  "one_week_inactive_users"
+    t.integer  "one_month_plus_inactive_users"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
