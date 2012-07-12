@@ -1,7 +1,7 @@
 class Stat < ActiveRecord::Base
 	def self.collect_daily_stats_for(current_acct)
 		d = Date.today
-		last_post_id_str = current_acct.posts.where("updated_at > ? and provider == 'twitter' ", Time.now-1.days).first.provider_post_id.to_i
+		last_post_id = current_acct.posts.where("updated_at > ? and provider == 'twitter' ", Time.now-1.days).first.provider_post_id.to_i
 		today = Stat.find_or_create_by_date(d - 1.days)
 		client = current_acct.twitter
 		yesterday = Stat.get_yesterday
@@ -17,7 +17,8 @@ class Stat < ActiveRecord::Base
 		rts = rts_today + yesterday.rts
 		mentions_today = client.mentions({:count => 200, :since_id => last_post_id}).count
 		mentions = mentions_today + yesterday.mentions
-		questions_answered = questions_answered_today yesterday.questions_answered
+		today.questions_answered_today = 0
+		questions_answered = today.questions_answered_today + yesterday.questions_answered
 		
 		active = Mention.where("created_at > ? and correct != null", d - 1.days).group(:user_id).count.map{|k,v| k}.to_set
 		three_day = Mention.where("created_at > ? and correct != null", d - 8.days).group(:user_id).count.map{|k,v| k}.to_set

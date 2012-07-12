@@ -95,23 +95,38 @@ class Question < ActiveRecord::Base
     return studyeggs
   end
 
+  def self.get_studyegg_id_by_lesson_id(lesson_id)
+    url = URI.parse("#{@qb}/api-V1/JKD673890RTSDFG45FGHJSUY/get_book_id_by_chapter_id/#{lesson_id}.json")
+    req = Net::HTTP::Get.new(url.path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    begin
+      studyegg = res.body
+    rescue
+      studyegg=nil
+    end
+    return studyegg
+  end
+
   def self.import_all_public_from_qb
     public_eggs = Question.get_public_with_lessons
     public_eggs.each do |p|
       p['chapters'].each do |ch|
-        Question.save_lesson(ch)
+        Question.save_lesson(ch, p['id'])
       end
     end
   end
 
   def self.import_lesson_from_qb(lesson_id)
     lesson = Question.get_lesson_details(lesson_id.to_s)
+    egg_id = get_studyegg_id_by_lesson_id(lesson_id)
     lesson.each do |l|
-      Question.save_lesson(l)
+      Question.save_lesson(l, egg_id)
     end
   end
 
-  def self.save_lesson(ch)
+  def self.save_lesson(ch, egg_id)
     @lesson_id = ch['id'].to_i
     puts @lesson_id
     if @lesson_id
@@ -128,7 +143,7 @@ class Question < ActiveRecord::Base
         unless new_q
           Question.create(:q_id => @q_id, 
                           :lesson_id => @lesson_id, 
-                          :studyegg_id => p['id'],
+                          :studyegg_id => egg_id,
                           :question => Question.clean_and_clip_question(@question),
                           :answer => Question.clean_text(@answer),
                           :url => "http://www.studyegg.com/review/#{@lesson_id}/#{@q_id}")
