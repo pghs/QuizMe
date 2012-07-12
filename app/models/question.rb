@@ -36,6 +36,7 @@ class Question < ActiveRecord::Base
 
   def self.tweet_next_question(current_acct)
     recent_question_ids = Post.where(:account_id => current_acct.id).order('created_at DESC').limit(100).collect(&:question_id)
+    recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
     questions = Question.where("studyegg_id in (?) and id not in (?)", Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id), recent_question_ids)
 
     q = questions.sample
