@@ -1,0 +1,16 @@
+-@account.posts.each do |p|
+  -next if p.mentions.empty?
+  .row.well{:id => p.id}
+    .span11
+      %h3{:style=>'text-align:center;'}= p.text
+    .span11
+      %h1{:style=>'text-align:center;'}= p.question.answer
+    -p.mentions.each do |m|
+      .well.span5
+        .span4
+          %h5= "@#{m.user.twi_screen_name}" if m.user
+          %h3= raw m.text
+        .span4
+          %button.btn.btn-success{:id => m.id} Correct
+          %button.btn.btn-danger{:id => m.id} Incorrect
+          %button.btn.btn-warning{:id => m.id} Skip
