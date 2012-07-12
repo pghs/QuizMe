@@ -81,37 +81,61 @@ class Question < ActiveRecord::Base
     return studyegg
   end
 
-  def self.import_from_qb
+  def self.get_lesson_details(lesson)
+    url = URI.parse("#{@qb}/api-V1/JKD673890RTSDFG45FGHJSUY/get_lesson_details/#{lesson}")
+    req = Net::HTTP::Get.new(url.path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    begin
+      studyeggs = JSON.parse(res.body)
+    rescue
+      studyeggs = []
+    end
+    return studyeggs
+  end
+
+  def self.import_all_public_from_qb
     public_eggs = Question.get_public_with_lessons
     public_eggs.each do |p|
       p['chapters'].each do |ch|
-        @lesson_id = ch['id'].to_i
-        puts @lesson_id
-        if @lesson_id
-          questions = Question.get_lesson_questions(@lesson_id)
-          next if questions['questions'].nil?
-          questions['questions'].each do |q|
-            @q_id = q['id'].to_i
-            @question = q['question']
-            @answer = ''
-            q['answers'].each do |a|
-              @answer = a['answer'] if a['correct']
-            end
-            new_q = Question.find_by_q_id(@q_id)
-            unless new_q
-              Question.create(:q_id => @q_id, 
-                              :lesson_id => @lesson_id, 
-                              :studyegg_id => p['id'],
-                              :question => Question.clean_and_clip_question(@question),
-                              :answer => Question.clean_text(@answer),
-                              :url => "http://www.studyegg.com/review/#{@lesson_id}/#{@q_id}")
-            end
-          end
-        end
+        Question.save_lesson(ch)
       end
     end
   end
 
+  def self.import_lesson_from_qb(lesson_id)
+    lesson = Question.get_lesson_details(lesson_id.to_s)
+    lesson.each do |l|
+      Question.save_lesson(l)
+    end
+  end
+
+  def self.save_lesson(ch)
+    @lesson_id = ch['id'].to_i
+    puts @lesson_id
+    if @lesson_id
+      questions = Question.get_lesson_questions(@lesson_id)
+      return if questions['questions'].nil?
+      questions['questions'].each do |q|
+        @q_id = q['id'].to_i
+        @question = q['question']
+        @answer = ''
+        q['answers'].each do |a|
+          @answer = a['answer'] if a['correct']
+        end
+        new_q = Question.find_by_q_id(@q_id)
+        unless new_q
+          Question.create(:q_id => @q_id, 
+                          :lesson_id => @lesson_id, 
+                          :studyegg_id => p['id'],
+                          :question => Question.clean_and_clip_question(@question),
+                          :answer => Question.clean_text(@answer),
+                          :url => "http://www.studyegg.com/review/#{@lesson_id}/#{@q_id}")
+        end
+      end
+    end
+  end
 
   def self.clean_and_clip_question(quest)
     if quest[0..3].downcase=='true'

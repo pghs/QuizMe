@@ -1,11 +1,11 @@
 -@account.posts.each do |p|
-  -next if p.mentions.empty?
+  -next if p.mentions.unanswered.empty?
   .row.well{'p_id' => p.id}
     .span11
       %h3{:style=>'text-align:center;'}= p.text
     .span11
       %h1{:style=>'text-align:center;'}= p.question.answer
-    -p.mentions.each do |m|
+    -p.mentions.unanswered.each do |m|
       .well.span5{'m_id' => m.id}
         .span4
           %h5= "@#{m.user.twi_screen_name}" if m.user

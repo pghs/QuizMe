@@ -15,7 +15,7 @@ $ ->
 		mem['mention_id'] = parseInt id
 		mem['correct'] = correct
 		console.log mem
-		$.ajax '/mention/update',
+		$.ajax '/mentions/update',
 			type: 'POST'
 			dataType: 'html'
 			data: mem

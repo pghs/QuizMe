@@ -1,6 +1,6 @@
 Quizmemanager::Application.routes.draw do
   
-  get "mentions/update"
+  post "mentions/update"
 
   match 'auth/:provider/callback' => 'accounts#update_omniauth'
 
