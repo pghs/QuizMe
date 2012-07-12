@@ -2,7 +2,7 @@ class Stat < ActiveRecord::Base
 	def self.collect_daily_stats_for(current_acct)
 		d = Date.today
 		last_post_id = current_acct.posts.where("updated_at > ? and provider == 'twitter' ", Time.now-1.days).first.provider_post_id.to_i
-		today = Stat.find_or_create_by_date(d - 1.days)
+		today = Stat.find_or_create_by_date((d - 1.days).to_s)
 		client = current_acct.twitter
 		yesterday = Stat.get_yesterday
 		twi_account = client.user
@@ -50,10 +50,10 @@ class Stat < ActiveRecord::Base
 		###get yesterdays stats or create dummy yesterday for math
 		d = Date.today
 		num_days_back = 2
-		yesterday = Stat.find_by_date(d - num_days_back.days)
+		yesterday = Stat.find_by_date((d - num_days_back.days).to_s)
 		while yesterday.nil? and num_days_back <= 8
 			num_days_back += 1
-			yesterday = Stat.find_by_date(d - num_days_back.days)
+			yesterday = Stat.find_by_date((d - num_days_back.days).to_s)
 		end
 		if yesterday.nil?
 			yesterday = Stat.new

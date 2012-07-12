@@ -24,10 +24,10 @@ class Mention < ActiveRecord::Base
 												:twi_profile_img_url => m.user.status.user.profile_image_url)
 		mention = Mention.find_or_create_by_twi_tweet_id(m.id.to_s)
 		unless mention.text == m.text and 
-			mention.twi_in_reply_to_status_id == m.in_reply_to_status_id and
+			mention.twi_in_reply_to_status_id == m.in_reply_to_status_id.to_s and
 			mention.user_id == u.id
 				mention.update_attributes(:text => m.text,
-					:twi_in_reply_to_status_id => m.in_reply_to_status_id,
+					:twi_in_reply_to_status_id => m.in_reply_to_status_id.to_s,
 					:user_id => u.id)
 		end
 		mention.link_mention_to_post
