@@ -4,7 +4,7 @@ task :check_qb_for_questions => :environment do
 end
 
 task :check_mentions => :environment do
-	accounts = Account.where('twi_oauth_token != null')
+	accounts = Account.where('twi_oauth_token')
 	accounts.each do |a|
 		Mention.check_mentions(a)
 		sleep(10)
@@ -13,7 +13,7 @@ end
 
 task :tweet => :environment do
 	t = Time.now
-	accounts = Account.where('twi_oauth_token != null')
+	accounts = Account.where('twi_oauth_token')
 	accounts.each do |a|
 		# if t.hour%3==0
 		# 	p = a.posts.last
@@ -26,7 +26,7 @@ task :tweet => :environment do
 end
 
 task :save_stats => :environment do
-	accounts = Account.where('twi_oauth_token != null')
+	accounts = Account.where('twi_oauth_token')
 	accounts.each do |a|
 		Stat.collect_daily_stats_for(a)
 		sleep(10)
