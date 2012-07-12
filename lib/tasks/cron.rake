@@ -13,7 +13,7 @@ end
 
 task :tweet => :environment do
 	t = Time.now
-	accounts = Account.where('twi_oauth_token != nil')
+	accounts = Account.where('twi_oauth_token != null')
 	accounts.each do |a|
 		# if t.hour%3==0
 		# 	p = a.posts.last
