@@ -23,4 +23,4 @@ $ ->
 				console.log "AJAX Error: #{errorThrown}"
 			success: (data, textStatus, jqXHR) ->
 				console.log "Success"
-				#$("##{id}").hide()
+				$(".well[m_id=#{id}]").hide()

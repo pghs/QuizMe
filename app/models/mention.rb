@@ -6,6 +6,41 @@ class Mention < ActiveRecord::Base
 		where(:responded => false)
 	end
 
+	def respond_correct
+		correct = ["That's right!",
+								"Correct!",
+								"Yes!",
+								"That's it!",
+								"You got it!",
+								"Perfect!",
+							]
+		complement = ["Way to go",
+									"Keep it up",
+									"Nice job",
+									"Nice work",
+									"Booyah",
+									"Nice going",
+									"Hear that? That's the sound of AWESOME happening",
+									""]
+		account = Account.find(self.post.account_id)
+		tweet = "@#{self.user.twi_screen_name} #{correct.sample} #{complement.sample}"
+		Post.tweet(account, tweet, self.post.question.url, 'cor', nil)
+	end
+
+	def respond_incorrect
+		incorrect = ["Hmmm, not quite.",
+								"Uh oh, that's not it...",
+								"Sorry, that's not what we were looking for.",
+								"Nope. Time to hit the books (or videos)!",
+								"Sorry. Close, but no cigar.",
+								"Not quite.",
+								"That's not it."
+							]
+		account = Account.find(self.post.account_id)
+		tweet = "@#{self.user.twi_screen_name} #{incorrect.sample} Check the question and try it again!"
+		Post.tweet(account, tweet, self.post.question.url, 'inc', nil)
+	end
+
 
 	def self.check_mentions(current_acct)
 		client = current_acct.twitter

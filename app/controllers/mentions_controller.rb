@@ -6,8 +6,21 @@ class MentionsController < ApplicationController
   	if m
 	  	m.update_attributes(:correct => params[:correct],
 	  											:responded => true)
-	  	#stat = Stat.find_or_create_by_date(Date.today)
-	  	#puts m.inspect
+
+	  	case params[:correct]
+	  	when true
+		  	stat = Stat.find_or_create_by_date(Date.today.to_s)
+		  	stat.increment(:questions_answered_today)
+		  	m.respond_correct
+	  	when false
+	  		stat = Stat.find_or_create_by_date(Date.today.to_s)
+		  	stat.increment(:questions_answered_today)
+		  	m.respond_incorrect
+	  	when nil
+	  		puts 'skipped'
+	  	else
+	  		puts 'an error has occurred:: MentionsController :: LINE 20'
+	  	end
 	  	#render :nothing => true, :status => 200
 	  else
 	  	puts 'else'
