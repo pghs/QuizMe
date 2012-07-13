@@ -130,6 +130,7 @@ class Question < ActiveRecord::Base
   def self.import_lesson_from_qb(lesson_id)
     lesson = Question.get_lesson_details(lesson_id.to_s)
     egg_id = get_studyegg_id_by_lesson_id(lesson_id)
+    puts egg_id
     lesson.each do |l|
       Question.save_lesson(l, egg_id)
     end
