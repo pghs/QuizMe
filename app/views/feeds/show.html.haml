@@ -9,16 +9,11 @@
 		- @posts.each do |post|
 			.post
 				.header
-					BiologyBot (3m ago):
+					BiologyBot:
 				.content
 					.question
 						%p= post.text
 					.answers
-						.answer
-							Answer #1
-						.answer
-							Answer #2
-						.answer
-							Answer #3
-						.answer
-							Answer #4
+						- post.question.answers.each do |answer|
+							.answer
+								= answer.text

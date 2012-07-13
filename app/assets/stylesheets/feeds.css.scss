@@ -45,7 +45,29 @@
 			background: #bbb;
 			/*height: 200px;*/
 			margin-bottom: 20px;
-			padding: 20px
+			padding: 20px;
+
+			.header {
+				font-weight: bold;
+			}
+
+			.content {
+				padding-top: 10px;
+
+				.question {
+					font-size: 16px;
+				}
+
+				.answers {
+					margin-left: 10px;
+
+					.answer {
+						background: #ccc;
+						margin: 5px;
+						padding: 4px;
+					}
+				}				
+			}
 		}
 	}
 }

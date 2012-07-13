@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
 	has_many :posts
+  has_many :answers
   belongs_to :topic
 
   def create_tweet
@@ -13,7 +14,7 @@ class Question < ActiveRecord::Base
     recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'twitter'").order('created_at DESC').limit(100).collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
     puts recent_question_ids
-    questions = current_acct.questions.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id) recent_question_ids)
+    questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids)
 
     q = questions.sample
     i = 0
