@@ -6,6 +6,7 @@ Quizmemanager::Application.routes.draw do
   post "mentions/update"
 
   match 'auth/:provider/callback' => 'sessions#create'
+  match "/signout" => "sessions#destroy", :as => :signout
 
   resources :accounts
   resources :users
