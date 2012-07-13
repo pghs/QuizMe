@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
 		short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name)
     res = current_acct.twitter.update("#{tweet} #{short_url}")
     Post.create(:account_id => current_acct.id,
-                :question_id => question.id,
+                :question_id => question_id,
                 :provider => 'twitter',
                 :text => tweet,
                 :url => url,
