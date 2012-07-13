@@ -18,6 +18,7 @@ class MentionsController < ApplicationController
 	  	when true
 		  	stat = Stat.find_or_create_by_date(Date.today.to_s)
 		  	stat.increment(:questions_answered_today)
+		  	m.post.mentions.order('sent_date DESC').limit(10).first
 		  	m.respond_correct
 	  	when false
 	  		stat = Stat.find_or_create_by_date(Date.today.to_s)
