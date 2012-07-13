@@ -2,7 +2,7 @@ class MentionsController < ApplicationController
 
   def update
   	m = Mention.find(params[:mention_id])
-  	correct = params[:correct].nil? ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
+  	correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
 
   	puts m.inspect
   	if m
