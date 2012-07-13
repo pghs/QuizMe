@@ -2,7 +2,8 @@ Quizmemanager::Application.routes.draw do
   
   get "feeds/index"
 
-  get "feeds/show"
+  # get "feeds/show"
+  match "feeds/:id" => "feeds#show"
 
   post "mentions/update"
 
