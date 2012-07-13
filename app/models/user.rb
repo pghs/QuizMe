@@ -5,8 +5,12 @@ class User < ActiveRecord::Base
 	def self.create_with_omniauth(auth)
 	  create! do |user|
 	    user.provider = auth["provider"]
-	    user.uid = auth["uid"]
+	    user.twi_user_id = auth["uid"]
 	    user.twi_screen_name = auth["info"]["nickname"]
+	    user.twi_name = auth["info"]["name"]
+	    user.twi_profile_img_url = auth["extra"]["raw_info"]["profile_image_url"]
+	    user.twi_oauth_token = auth['credentials']['token']
+			user.twi_oauth_secret = auth['credentials']['secret']
 	  end
 	end
 
