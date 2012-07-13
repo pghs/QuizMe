@@ -14,5 +14,5 @@ Quizmemanager::Application.routes.draw do
   resources :posts
   resources :mentions
 
-  root :to => 'accounts#index'
+  root :to => 'feeds#index'
 end
