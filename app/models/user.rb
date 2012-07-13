@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	has_many :mentions
+	has_many :reps
 
 	def self.get_followers(current_acct)
 		client = current_acct.twitter

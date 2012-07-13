@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
 	belongs_to :question
 	belongs_to :account
 	has_many :mentions
+	has_many :reps
 
 	def repost_tweet
 		account = Account.find(self.account_id)
