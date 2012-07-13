@@ -4,12 +4,16 @@ class FeedsController < ApplicationController
   end
 
   def show
-    puts params.to_json
-    account = Account.find(params[:id])
+    account = Account.find(params[:id], :include => :posts)
+    @posts = account.posts.limit(5)
 
+    @posts.each do |post|
+      puts post.question.to_json
+    end
+    # puts @posts.to_json
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @question }
+      format.json { render json: @posts }
     end
   end
 end

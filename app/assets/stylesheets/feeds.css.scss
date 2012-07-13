@@ -1,3 +1,51 @@
-// Place all the styles related to the Feeds controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#feed_container {
+	margin:	auto;
+	margin-top: -22px;
+	width: 980px;
+	height: 500px;
+	/*background: #eee;*/
+
+	#feed_header {
+		margin:	auto;
+		position: relative;
+		top: 20px;
+		width: 900px;
+		height:	125px;
+		padding: 20px;
+		background: #ccc;
+
+		img {
+			height: 125px;
+			float: left;
+		}
+
+		#feed_description {
+			float: left;
+			margin: 20px;
+			width: 600px;
+			height: 100px;
+		}
+
+		#feed_description {
+			float: left;
+			margin: 20px;
+		}
+	}
+
+	#feed_content {
+		position: relative;
+		top: 20px;		
+		width: 800px;
+		margin: auto;
+		height: 100%;
+		/*background: #ddd;*/
+		padding: 20px;
+
+		.post {
+			background: #bbb;
+			/*height: 200px;*/
+			margin-bottom: 20px;
+			padding: 20px
+		}
+	}
+}
