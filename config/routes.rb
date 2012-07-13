@@ -1,4 +1,6 @@
 Quizmemanager::Application.routes.draw do
+  get "feeds/index"
+  get "feeds/show"
   post "mentions/update"
 
   match 'auth/:provider/callback' => 'sessions#create'
@@ -9,5 +11,5 @@ Quizmemanager::Application.routes.draw do
   resources :posts
   resources :mentions
 
-  root :to => 'accounts#index'
+  root :to => 'feeds#index'
 end
