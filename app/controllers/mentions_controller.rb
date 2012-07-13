@@ -2,12 +2,14 @@ class MentionsController < ApplicationController
 
   def update
   	m = Mention.find(params[:mention_id])
+  	correct = params[:correct].nil? ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
+
   	puts m.inspect
   	if m
-	  	m.update_attributes(:correct => params[:correct],
+	  	m.update_attributes(:correct => correct,
 	  											:responded => true)
 
-	  	case params[:correct]
+	  	case correct
 	  	when true
 		  	stat = Stat.find_or_create_by_date(Date.today.to_s)
 		  	stat.increment(:questions_answered_today)
@@ -19,7 +21,7 @@ class MentionsController < ApplicationController
 	  	when nil
 	  		puts 'skipped'
 	  	else
-	  		puts 'an error has occurred:: MentionsController :: LINE 20'
+	  		puts 'an error has occurred:: MentionsController :: LINE 24'
 	  	end
 	  	#render :nothing => true, :status => 200
 	  else
