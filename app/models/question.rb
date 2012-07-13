@@ -62,7 +62,20 @@ class Question < ActiveRecord::Base
 
   @qb = Rails.env.production? ? 'http://questionbase.studyegg.com' : 'http://localhost:3001'
 
-  
+  def self.get_studyegg_details(egg_id)
+    url = URI.parse("#{@qb}/api-V1/JKD673890RTSDFG45FGHJSUY/get_book_details/#{egg_id}.json")
+    req = Net::HTTP::Get.new(url.path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    begin
+      studyegg = JSON.parse(res.body)
+    rescue
+      studyegg=nil
+    end
+    return studyegg
+  end
+
   def self.get_lesson_questions(lesson_id)
     url = URI.parse("#{@qb}/api-V1/JKD673890RTSDFG45FGHJSUY/get_all_lesson_questions/#{lesson_id}.json")
     req = Net::HTTP::Get.new(url.path)
@@ -91,12 +104,10 @@ class Question < ActiveRecord::Base
     return studyeggs
   end
 
-  def self.import_studyegg_from_qb
-    public_eggs = Question.get_public_with_lessons
-    public_eggs.each do |p|
-      p['chapters'].each do |ch|
-        Question.save_lesson(ch, p['id'])
-      end
+  def self.import_studyegg_from_qb(egg_id, topic_name)
+    egg = Question.get_studyegg_details(egg_id)
+    egg['chapters'].each do |ch|
+      Question.save_lesson(ch, topic_name)
     end
   end
 
@@ -115,7 +126,7 @@ class Question < ActiveRecord::Base
       return if questions['questions'].nil?
       topic = Topic.find_or_create_by_name(topic_name)
       questions['questions'].each do |q|
-        new_q = Question.create(:question => Question.clean_and_clip_question(q['question']),
+        new_q = Question.create(:text => Question.clean_and_clip_question(q['question']),
                                 :topic_id => topic.id)
         q['answers'].each do |a|
           Answer.create(:text => Question.clean_text(a['answer']),

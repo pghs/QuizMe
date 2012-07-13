@@ -2,6 +2,14 @@ class User < ActiveRecord::Base
 	has_many :mentions
 	has_many :reps
 
+	def self.create_with_omniauth(auth)
+	  create! do |user|
+	    user.provider = auth["provider"]
+	    user.uid = auth["uid"]
+	    user.twi_screen_name = auth["info"]["nickname"]
+	  end
+	end
+
 	def self.get_followers(current_acct)
 		client = current_acct.twitter
 		follower_ids = client.follower_ids.ids
