@@ -11,4 +11,12 @@ class Account < ActiveRecord::Base
 		end
 		client
 	end
+
+	def unanswered
+		count = 0
+		self.posts.each do |p|
+			count += p.mentions.unanswered.count
+		end
+		count
+	end
 end

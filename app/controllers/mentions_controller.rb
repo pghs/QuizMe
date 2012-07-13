@@ -1,5 +1,10 @@
 class MentionsController < ApplicationController
 
+	def index
+		@orphans = Mention.where('post_id is null')
+		@posts = current_acct.posts.where('question_id is not null and provider = "twitter"').order('created_at DESC').limit(25)
+	end
+
   def update
   	m = Mention.find(params[:mention_id])
   	correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil

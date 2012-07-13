@@ -32,3 +32,7 @@ task :save_stats => :environment do
 		sleep(10)
 	end
 end
+
+rask :check_followers => :environment do
+	
+end

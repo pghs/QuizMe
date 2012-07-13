@@ -8,6 +8,7 @@
       <div class='span3 well'>
         <%= image_tag(account.twi_profile_img_url) %>
         <h1 style='display: inline'><%= link_to account.name, account_path(account) %></h1>
+        <h4><%= account.unanswered %> new</h4>
       </div>
     <%if i%3==2 %></div><% end %>
     <%counter=i %>

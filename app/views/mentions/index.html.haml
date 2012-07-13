@@ -1,0 +1,18 @@
+%h2 Orphans
+-@orphans.each do |o|
+	.row.well
+		%h3= o.user.twi_screen_name
+		%h3= o.text
+	
+-@posts.each do |p|
+	.row.well{'p_id' => p.id}
+		%h5= p.created_at
+		.span8
+			%h3{:style=>'text-align:center;'}= p.text
+		.span3
+			%h1{:style=>'text-align:center;'}= p.question.answer
+		-p.mentions.each do |m|
+			.well.span9.offset1{'m_id' => m.id}
+				%h5= "@#{m.user.twi_screen_name}" if m.user
+				%h5= m.created_at
+				%h3= raw m.text
