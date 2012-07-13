@@ -82,21 +82,6 @@ class Mention < ActiveRecord::Base
 			p = nil
 			p = Post.find_by_url("http://#{bitly_link}") unless bitly_link.nil?
 			self.update_attributes(:post_id => p.id) if p
-		else
-			msg = self.text
-			hashtag = msg =~ /#/
-			if hashtag
-				sp = msg.index(/ /,hashtag)
-				sp = -1 if sp.nil?
-				question_id = msg.slice(hashtag+1..sp).to_i
-				question_id = nil if question_id==0
-				q = nil
-				q = Question.find_by_q_id(question_id) unless question_id.nil?
-				if q
-					p = Post.where(:question_id => q.id).order("created_at ASC").first
-					self.update_attributes(:post_id => p.id) if p
-				end
-			end
 		end
 	end
 end

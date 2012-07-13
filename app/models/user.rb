@@ -14,6 +14,16 @@ class User < ActiveRecord::Base
 	  end
 	end
 
+	def twitter
+		if self.twi_oauth_token and self.twi_oauth_secret
+			client = Twitter::Client.new(:consumer_key => SERVICES['twitter']['key'],
+																 :consumer_secret => SERVICES['twitter']['secret'],
+																 :oauth_token => self.twi_oauth_token,
+																 :oauth_token_secret => self.twi_oauth_secret)
+		end
+		client
+	end
+
 	def self.get_followers(current_acct)
 		client = current_acct.twitter
 		follower_ids = client.follower_ids.ids

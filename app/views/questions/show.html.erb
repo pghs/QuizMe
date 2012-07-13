@@ -4,18 +4,12 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:q_id) %>:</strong></dt>
-  <dd><%= @question.q_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:lesson_id) %>:</strong></dt>
-  <dd><%= @question.lesson_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:studyegg_id) %>:</strong></dt>
-  <dd><%= @question.studyegg_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:question) %>:</strong></dt>
-  <dd><%= @question.question %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:answer) %>:</strong></dt>
-  <dd><%= @question.answer %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:text) %>:</strong></dt>
+  <dd><%= @question.text %></dd>
   <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
   <dd><%= @question.url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:topic_id) %>:</strong></dt>
+  <dd><%= @question.topic_id %></dd>
 </dl>
 
 <div class="form-actions">
