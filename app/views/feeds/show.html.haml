@@ -1,0 +1,24 @@
+#feed_container
+	#feed_header
+		#feed_image
+			= image_tag('https://twimg0-a.akamaihd.net/profile_images/2320273913/31e2wgbkv1v5d1qdx23j.jpeg')
+		#feed_description
+			This is a feed about biology. Check it ouuuuuuut.
+		#feed_stats
+	#feed_content
+		- @posts.each do |post|
+			.post
+				.header
+					BiologyBot (3m ago):
+				.content
+					.question
+						%p= post.text
+					.answers
+						.answer
+							Answer #1
+						.answer
+							Answer #2
+						.answer
+							Answer #3
+						.answer
+							Answer #4

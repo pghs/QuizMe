@@ -1,3 +1,14 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+class Feed
+	constructor: ->
+		@initializeInfiniteScroll()
+		@initializeNewPostListener()
+	initializeInfiniteScroll: =>
+		$(window).unbind ".infscr"
+		console.log $("#feed_content")
+		$(document).trigger "retrieve.infscr"
+	# initializeNewPostListener: =>
+		# $.ajax
+			# url: 
+
+
+$ -> window.feed = new Feed
