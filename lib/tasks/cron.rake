@@ -33,6 +33,6 @@ task :save_stats => :environment do
 	end
 end
 
-rask :check_followers => :environment do
-	
+task :check_followers => :environment do
+	puts 'check followers'	
 end
