@@ -1,7 +1,7 @@
 class CreateStats < ActiveRecord::Migration
   def change
     create_table :stats do |t|
-      t.datetime :date
+      t.string :date
       t.integer :followers
       t.integer :followers_delta
       t.integer :friends

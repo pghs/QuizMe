@@ -9,6 +9,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :link_type
       t.string :post_type
       t.string :provider_post_id
+      t.integer :to_twi_user_id
 
       t.timestamps
     end
