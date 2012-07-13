@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
 	has_many :posts
-  has_many :accounts, :through => :lessonaccess
+  has_many :lessonaccesses
 
   BIO = [13]
 
@@ -32,7 +32,7 @@ class Question < ActiveRecord::Base
 
   def self.tweet_next_question(current_acct)
     puts 'Finding tweet'
-    recent_question_ids = Post.where(:account_id => current_acct.id).order('created_at DESC').limit(100).collect(&:question_id)
+    recent_question_ids = current_acct.posts.order('created_at DESC').limit(100).collect(&:question_id).keep_if {|q| q}
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
     puts recent_question_ids
     access = Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id)
