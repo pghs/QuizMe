@@ -35,17 +35,22 @@ class Question < ActiveRecord::Base
     recent_question_ids = Post.where(:account_id => current_acct.id).order('created_at DESC').limit(100).collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
     puts recent_question_ids
-    questions = Question.where("studyegg_id in (?) and id not in (?)", Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id), recent_question_ids)
+    access = Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id)
+    access = access.empty? ? [0] : access
+    puts "access"
+    puts access
+    questions = Question.where("studyegg_id in (?) and id not in (?)", access, recent_question_ids)
 
     q = questions.sample
     i = 0
-    puts q.id
+    puts "q_id #{q.id}"
     while q.create_tweet.nil?
       q = questions.sample
       i+=1
       raise 'COULD NOT FIND NEW QUESTION TO TWEET' if i>100
     end
     puts 'FOUND!'
+    puts q.inspect
     q.post_new_to_twitter(current_acct)
   end
 
