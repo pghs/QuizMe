@@ -49,9 +49,9 @@
 		padding: 20px;
 
 		.post {
-			background: url('light_toast.png');
+			background: white;
 			margin-bottom: 20px;
-			padding: 20px;
+			padding-bottom: 20px;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
 			border-radius: 5px;
@@ -60,53 +60,69 @@
 			box-shadow: 2px 2px 5px #1C1C1C;						
 
 			.header {
+				padding: 10px 10px 0px 10px;
 				font-weight: bold;
-			}
+				background: white;
+				color: #474747;
+				-webkit-border-top-right-radius: 5px;
+				-webkit-border-top-left-radius: 5px;
+				-moz-border-top-right-radius: 5px;
+				-moz-border-top-left-radius: 5px;
+				border-top-right-radius: 5px;				
+				border-top-left-radius: 5px;				
+				border-bottom-style:dotted;
+				border-width:1px;
+				border-color:gray;
+				background: url('light_toast.png');
 
-			.content {
-				padding-top: 10px;
+				.bot_name {
+					margin-bottom: 0px;
+					color: gray;
+				}
 
 				.question {
 					font-size: 20px;
 					line-height: 1.3em;
 					margin-bottom: 10px;
 				}
-
-				.answers {
-					margin-left: 10px;
-
-					.answer {
-						margin: 10px;
-						border-top: 1px solid #b8cad6;
-						background: #70a0bf;
-						background: -webkit-gradient(linear, left top, left bottom, from(#99acb8), to(#70a0bf));
-						background: -webkit-linear-gradient(top, #99acb8, #70a0bf);
-						background: -moz-linear-gradient(top, #99acb8, #70a0bf);
-						background: -ms-linear-gradient(top, #99acb8, #70a0bf);
-						background: -o-linear-gradient(top, #99acb8, #70a0bf);
-						padding: 6px 12px;
-						-webkit-border-radius: 5px;
-						-moz-border-radius: 5px;
-						border-radius: 5px;
-						-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-						-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-						box-shadow: rgba(0,0,0,1) 0 1px 0;
-						color: black;
-						font-size: 15px;
-						text-decoration: none;
-						vertical-align: middle;
-					}
-					.answer:hover {
-						border-top-color: #4d728a;
-						background: #4d728a;
-						color: #ccc;
-					}
-					.answer:active {
-						border-top-color: #1b435e;
-						background: #1b435e;
-					}
-				}				
 			}
+
+			.answers {
+				margin-left: 10px;
+				margin-top: 30px;
+
+				.answer {
+					cursor: pointer;
+					margin: 10px;
+					border-top: 1px solid #b8cad6;
+					background: #70a0bf;
+					background: -webkit-gradient(linear, left top, left bottom, from(#99acb8), to(#70a0bf));
+					background: -webkit-linear-gradient(top, #99acb8, #70a0bf);
+					background: -moz-linear-gradient(top, #99acb8, #70a0bf);
+					background: -ms-linear-gradient(top, #99acb8, #70a0bf);
+					background: -o-linear-gradient(top, #99acb8, #70a0bf);
+					padding: 6px 12px;
+					-webkit-border-radius: 5px;
+					-moz-border-radius: 5px;
+					border-radius: 5px;
+					-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+					-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+					box-shadow: rgba(0,0,0,1) 0 1px 0;
+					color: black;
+					font-size: 15px;
+					text-decoration: none;
+					vertical-align: middle;
+				}
+				.answer:hover {
+					border-top-color: #4d728a;
+					background: #4d728a;
+					color: #ccc;
+				}
+				.answer:active {
+					border-top-color: #1b435e;
+					background: #1b435e;
+				}
+			}				
 		}
 
 		#show_more {

@@ -12,14 +12,13 @@
 		- @posts.each do |post|
 			.post
 				.header
-					= "#{@account.name}:"
-				.content
+					%p.bot_name= "#{@account.name}:"				
 					.question
 						%p= post.text
-					.answers
-						- post.question.answers.each do |answer|
-							.answer{:class => ("correct" if answer.correct)}
-								= answer.text
+				.answers
+					- post.question.answers.each do |answer|
+						.answer{:class => ("correct" if answer.correct)}
+							= answer.text
 		#show_more
 			Show More
 			/ %a{:href => "/feeds/#{@account.id}/more", :remote => true} Show more posts
@@ -28,7 +27,7 @@
 
 #post_template
 	.header
-	.content
+		%p.bot_name QuizMeBot
 		.question
 			%p Oops!
-		.answers
+	.answers

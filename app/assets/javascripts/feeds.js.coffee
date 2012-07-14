@@ -16,8 +16,9 @@ class Feed
 		channel.bind 'new_post', (data) => @displayNewPost(data, "prepend")
 	displayNewPost: (data, insertType) => 
 		post = $("#post_template").clone().removeAttr("id").addClass("post")
+		console.log post.find(".question p")
+		post.find(".header p").text("#{@name}:")
 		post.find(".question p").text(data.text)
-		post.find(".header").text(@name)
 		answers = post.find(".answers")
 		for answer in data.answers
 			if answer.correct
@@ -41,8 +42,11 @@ class Post
 		@element = $(element)
 		@question = @element.find(".question").text()
 		@answers.push(new Answer answer, @) for answer in @element.find(".answer")
-	answered: =>
-		@element.css("background", "rgba(242, 242, 242, .2)")
+	answered: (correct) =>
+		if correct
+			@element.css("background", "rgba(0, 59, 5, .2)") #rgba(242, 242, 242, 1)")
+		else
+			@element.css("background", "rgba(128, 0, 0, .1)")
 		for answer in @answers
 			answer.element.css("background", "gray")
 			if answer.correct
@@ -60,7 +64,7 @@ class Answer
 		@element = $(element)
 		@correct = true if @element.hasClass("correct")
 		@element.on "click", =>
-			@post.answered()
+			@post.answered(@correct)
 			@element.css("color", "#800000") unless @correct
 			answer.element.off "click" for answer in @post.answers
 				
