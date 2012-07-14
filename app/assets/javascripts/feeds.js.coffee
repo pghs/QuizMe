@@ -37,7 +37,6 @@ class Post
 	question: null
 	answers: []
 	constructor: (element) ->
-		console.log element
 		@answers = []
 		@element = $(element)
 		@question = @element.find(".question").text()
@@ -48,7 +47,6 @@ class Post
 			answer.element.css("background", "gray")
 			if answer.correct
 				answer.element.css("color", "#003B05")
-				# answer.element.css("font-weight", "bold")
 			else
 				answer.element.css("color", "#A3A3A3")
 
@@ -64,6 +62,7 @@ class Answer
 		@element.on "click", =>
 			@post.answered()
 			@element.css("color", "#800000") unless @correct
+			answer.element.off "click" for answer in @post.answers
 				
 
 $ -> window.feed = new Feed

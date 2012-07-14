@@ -10,18 +10,18 @@ task :check_mentions => :environment do
 end
 
 task :post_next => :environment do
-	t = Time.now
-	accounts = Account.all
-	accounts.each do |a|
-		# if t.hour%3==0
-		# 	p = a.posts.last
-		# 	p.repost_tweet('Review: ')
-		# else
-			# Question.post_next_question(a)
-		# end
-		Question.post_new_question(a)
-		sleep(10)
-	end
+	# t = Time.now
+	# accounts = Account.all
+	# accounts.each do |a|
+	# 	# if t.hour%3==0
+	# 	# 	p = a.posts.last
+	# 	# 	p.repost_tweet('Review: ')
+	# 	# else
+	# 		# Question.post_next_question(a)
+	# 	# end
+	# 	Question.post_new_question(a)
+	# 	sleep(10)
+	# end
 
 	account = Account.first
 	Pusher.app_id = '23912'
