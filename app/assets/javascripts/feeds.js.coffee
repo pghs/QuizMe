@@ -5,13 +5,11 @@ class Feed
 	constructor: ->
 		@name = $("#feed_name").val()
 		@id = $("#feed_id").val()
-		# @initializeInfiniteScroll()
 		@initializeNewPostListener()
 		@initializeQuestions()
 		$("#show_more").on "click", => @showMore()
+		$(window).on "scroll", => @showMore() if ($(document).height() == $(window).scrollTop() + $(window).height())
 	initializeQuestions: => @questions.push(new Post post) for post in $(".post")
-	initializeInfiniteScroll: =>
-		console.log $("#feed_content")
 	initializeNewPostListener: =>
 		pusher = new Pusher('bffe5352760b25f9b8bd')
 		channel = pusher.subscribe(@name)
@@ -22,15 +20,16 @@ class Feed
 		post.find(".header").text(@name)
 		answers = post.find(".answers")
 		for answer in data.answers
-			answers.append("<div class='answer'>#{answer.text}</div>")
+			if answer.correct
+				answers.append("<div class='answer correct'>#{answer.text}</div>")
+			else
+				answers.append("<div class='answer'>#{answer.text}</div>")
 		if insertType == "prepend"
 			$("#feed_content").prepend(post)
 		else
 			post.insertBefore("#show_more")
-	showMore: => 
-		$.getJSON "/feeds/#{@id}/more", (posts) => 
-			@displayNewPost(post.question, "append") for post in posts
-
+		@questions.push(new Post post)
+	showMore: => $.getJSON "/feeds/#{@id}/more", (posts) => @displayNewPost(post.question, "append") for post in posts
 
 
 class Post
@@ -38,6 +37,7 @@ class Post
 	question: null
 	answers: []
 	constructor: (element) ->
+		console.log element
 		@answers = []
 		@element = $(element)
 		@question = @element.find(".question").text()
