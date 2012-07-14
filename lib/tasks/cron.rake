@@ -23,6 +23,11 @@ task :post_next => :environment do
 	# 	sleep(10)
 	# end
 
+	# NOTE: the push should contain the new post to be added to each feed. We
+	# could have a separate channel for each feed. Alternatively, all feeds
+	# listen to the same channel, ALL new posts would get pushed to all feeds
+	# where they would sort them out.
+
 	account = Account.first
 	Pusher.app_id = '23912'
 	Pusher.key = 'bffe5352760b25f9b8bd'

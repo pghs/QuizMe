@@ -13,17 +13,24 @@
 		width: 900px;
 		height:	125px;
 		padding: 20px;
-		background: #D1D1D1;
+		background: white;
 		-webkit-border-radius: 5px;
 		-moz-border-radius: 5px;
 		border-radius: 5px;
 		-moz-box-shadow: 2px 2px 5px #1C1C1C;
 		-webkit-box-shadow: 2px 2px 5px #1C1C1C;
-		box-shadow: 2px 2px 5px #1C1C1C;		
+		box-shadow: 2px 2px 5px #1C1C1C;
+		border: 1px solid rgba(0, 0, 0, .1);		
 
 		img {
 			height: 125px;
 			float: left;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;	
+			border: 1px solid rgba(0, 0, 0, .1);		
+			/*padding:1px;*/
+			/*border:1px solid #ccc;*/
 		}
 
 		#feed_description {
@@ -57,7 +64,8 @@
 			border-radius: 5px;
 			-moz-box-shadow: 2px 2px 5px #1C1C1C;
 			-webkit-box-shadow: 2px 2px 5px #1C1C1C;
-			box-shadow: 2px 2px 5px #1C1C1C;						
+			box-shadow: 2px 2px 5px #1C1C1C;
+			border: 1px solid rgba(0, 0, 0, .1);						
 
 			.header {
 				padding: 10px 10px 0px 10px;
