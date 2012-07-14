@@ -1,3 +1,4 @@
+= hidden_field_tag :feed_id, @account.id
 = hidden_field_tag :feed_name, @account.name
 
 #feed_container
@@ -19,6 +20,11 @@
 						- post.question.answers.each do |answer|
 							.answer{:class => ("correct" if answer.correct)}
 								= answer.text
+		#show_more
+			Show More
+			/ %a{:href => "/feeds/#{@account.id}/more", :remote => true} Show more posts
+		/ #show_more
+		/ 	Show more posts
 
 #post_template
 	.header

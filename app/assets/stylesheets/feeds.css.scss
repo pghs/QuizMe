@@ -49,7 +49,7 @@
 		padding: 20px;
 
 		.post {
-			background: #F2F2F2;
+			background: url('light_toast.png');
 			margin-bottom: 20px;
 			padding: 20px;
 			-webkit-border-radius: 5px;
@@ -67,43 +67,64 @@
 				padding-top: 10px;
 
 				.question {
-					font-size: 16px;
+					font-size: 20px;
+					line-height: 1.3em;
+					margin-bottom: 10px;
 				}
 
 				.answers {
 					margin-left: 10px;
 
 					.answer {
-						/*background: #ccc;*/
 						margin: 10px;
-						/*padding: 4px;*/
-						/*padding-left: 10px;*/
-						/*-webkit-border-radius: 5px;*/
-						/*-moz-border-radius: 5px;*/
-						/*border-radius: 5px;		*/
-						border-top: 1px solid #96d1f8;
-						background: #E0F3FF;
-						background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#E0F3FF));
-						background: -webkit-linear-gradient(top, #65a9d7, #E0F3FF);
-						background: -moz-linear-gradient(top, #65a9d7, #E0F3FF);
-						background: -ms-linear-gradient(top, #65a9d7, #E0F3FF);
-						background: -o-linear-gradient(top, #65a9d7, #E0F3FF);
+						border-top: 1px solid #b8cad6;
+						background: #70a0bf;
+						background: -webkit-gradient(linear, left top, left bottom, from(#99acb8), to(#70a0bf));
+						background: -webkit-linear-gradient(top, #99acb8, #70a0bf);
+						background: -moz-linear-gradient(top, #99acb8, #70a0bf);
+						background: -ms-linear-gradient(top, #99acb8, #70a0bf);
+						background: -o-linear-gradient(top, #99acb8, #70a0bf);
 						padding: 6px 12px;
 						-webkit-border-radius: 5px;
 						-moz-border-radius: 5px;
 						border-radius: 5px;
-						/*-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;*/
-						/*-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;*/
-						/*box-shadow: rgba(0,0,0,1) 0 1px 0;*/
-						/*text-shadow: rgba(0,0,0,.4) 0 1px 0;*/
+						-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+						-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+						box-shadow: rgba(0,0,0,1) 0 1px 0;
 						color: black;
 						font-size: 15px;
-						/*font-family: Georgia, serif;*/
 						text-decoration: none;
 						vertical-align: middle;
 					}
+					.answer:hover {
+						border-top-color: #4d728a;
+						background: #4d728a;
+						color: #ccc;
+					}
+					.answer:active {
+						border-top-color: #1b435e;
+						background: #1b435e;
+					}
 				}				
 			}
+		}
+
+		#show_more {
+			height: 20px;
+			background: #F2F2F2;
+			margin-bottom: 20px;
+			padding: 20px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			-moz-box-shadow: 2px 2px 5px #1C1C1C;
+			-webkit-box-shadow: 2px 2px 5px #1C1C1C;
+			box-shadow: 2px 2px 5px #1C1C1C;
+			text-align: center;
+			font-weight: bold;
+			font-size: 18px;	
+			color: #aaa;
+			cursor: pointer;	
 		}
 	}
 }

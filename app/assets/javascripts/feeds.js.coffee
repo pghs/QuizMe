@@ -1,51 +1,56 @@
 class Feed
+	id: null
 	name: null 
 	questions: []
 	constructor: ->
 		@name = $("#feed_name").val()
+		@id = $("#feed_id").val()
 		# @initializeInfiniteScroll()
 		@initializeNewPostListener()
 		@initializeQuestions()
+		$("#show_more").on "click", => @showMore()
 	initializeQuestions: => @questions.push(new Post post) for post in $(".post")
 	initializeInfiniteScroll: =>
 		console.log $("#feed_content")
 	initializeNewPostListener: =>
 		pusher = new Pusher('bffe5352760b25f9b8bd')
 		channel = pusher.subscribe(@name)
-		channel.bind 'new_post', (data) => @displayNewPost(data)
-	displayNewPost: (data) => 
+		channel.bind 'new_post', (data) => @displayNewPost(data, "prepend")
+	displayNewPost: (data, insertType) => 
 		post = $("#post_template").clone().removeAttr("id").addClass("post")
 		post.find(".question p").text(data.text)
 		post.find(".header").text(@name)
 		answers = post.find(".answers")
 		for answer in data.answers
 			answers.append("<div class='answer'>#{answer.text}</div>")
-		$("#feed_content").prepend(post)
+		if insertType == "prepend"
+			$("#feed_content").prepend(post)
+		else
+			post.insertBefore("#show_more")
+	showMore: => 
+		$.getJSON "/feeds/#{@id}/more", (posts) => 
+			@displayNewPost(post.question, "append") for post in posts
+
+
 
 class Post
 	element: null
 	question: null
 	answers: []
 	constructor: (element) ->
+		@answers = []
 		@element = $(element)
 		@question = @element.find(".question").text()
 		@answers.push(new Answer answer, @) for answer in @element.find(".answer")
-	answerCorrect: =>
-		@element.animate({background: "#EBFFF1"}, 1000)
-		# @element.css("background", "#EBFFF1")
-	# 	for answer in @answers
-	# 		if answer.correct
-	# 			answer.element.css("background", "#B3F2C7")
-	# 		else
-	# 			answer.element.css("background", "#FFC4C4")
-	answerIncorrect: =>
-		@element.animate({background: "#FFEDED"}, 1000)
-		# @element.css("background", "#FFEDED")
-	# 	for answer in @answers
-	# 		if answer.correct
-	# 			answer.element.css("background", "#B3F2C7")
-	# 		else
-	# 			answer.element.css("background", "#FFC4C4")		
+	answered: =>
+		@element.css("background", "rgba(242, 242, 242, .2)")
+		for answer in @answers
+			answer.element.css("background", "gray")
+			if answer.correct
+				answer.element.css("color", "#003B05")
+				# answer.element.css("font-weight", "bold")
+			else
+				answer.element.css("color", "#A3A3A3")
 
 
 class Answer
@@ -56,12 +61,9 @@ class Answer
 		@post = post
 		@element = $(element)
 		@correct = true if @element.hasClass("correct")
-		@element.on "click", => 
-			if @correct
-				@post.answerCorrect()
-				@element.css("background", "#B3F2C7")
-			else
-				@post.answerIncorrect()
-				@element.css("background", "#FFC4C4")
+		@element.on "click", =>
+			@post.answered()
+			@element.css("color", "#800000") unless @correct
+				
 
 $ -> window.feed = new Feed
