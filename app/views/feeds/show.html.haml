@@ -1,3 +1,5 @@
+= hidden_field_tag :feed_name, @account.name
+
 #feed_container
 	#feed_header
 		#feed_image
@@ -9,11 +11,18 @@
 		- @posts.each do |post|
 			.post
 				.header
-					BiologyBot:
+					= "#{@account.name}:"
 				.content
 					.question
 						%p= post.text
 					.answers
 						- post.question.answers.each do |answer|
-							.answer
+							.answer{:class => ("correct" if answer.correct)}
 								= answer.text
+
+#post_template
+	.header
+	.content
+		.question
+			%p Oops!
+		.answers

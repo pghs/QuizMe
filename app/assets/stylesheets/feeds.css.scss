@@ -1,9 +1,10 @@
 #feed_container {
+	position: relative;
 	margin:	auto;
-	margin-top: -22px;
 	width: 980px;
-	height: 500px;
 	/*background: #eee;*/
+	min-height: 100%;
+	/*background-color:rgba(1, 1, 1, 0.2);*/
 
 	#feed_header {
 		margin:	auto;
@@ -12,7 +13,13 @@
 		width: 900px;
 		height:	125px;
 		padding: 20px;
-		background: #ccc;
+		background: #D1D1D1;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-moz-box-shadow: 2px 2px 5px #1C1C1C;
+		-webkit-box-shadow: 2px 2px 5px #1C1C1C;
+		box-shadow: 2px 2px 5px #1C1C1C;		
 
 		img {
 			height: 125px;
@@ -35,16 +42,22 @@
 	#feed_content {
 		position: relative;
 		top: 20px;		
-		width: 800px;
+		width: 860px;
 		margin: auto;
-		height: 100%;
-		/*background: #ddd;*/
+		min-height: 100%;
+		background-color:rgba(1, 1, 1, 0.2);
 		padding: 20px;
 
 		.post {
-			background: #bbb;
+			background: #F2F2F2;
 			margin-bottom: 20px;
 			padding: 20px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			-moz-box-shadow: 2px 2px 5px #1C1C1C;
+			-webkit-box-shadow: 2px 2px 5px #1C1C1C;
+			box-shadow: 2px 2px 5px #1C1C1C;						
 
 			.header {
 				font-weight: bold;
@@ -61,12 +74,40 @@
 					margin-left: 10px;
 
 					.answer {
-						background: #ccc;
-						margin: 5px;
-						padding: 4px;
+						/*background: #ccc;*/
+						margin: 10px;
+						/*padding: 4px;*/
+						/*padding-left: 10px;*/
+						/*-webkit-border-radius: 5px;*/
+						/*-moz-border-radius: 5px;*/
+						/*border-radius: 5px;		*/
+						border-top: 1px solid #96d1f8;
+						background: #E0F3FF;
+						background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#E0F3FF));
+						background: -webkit-linear-gradient(top, #65a9d7, #E0F3FF);
+						background: -moz-linear-gradient(top, #65a9d7, #E0F3FF);
+						background: -ms-linear-gradient(top, #65a9d7, #E0F3FF);
+						background: -o-linear-gradient(top, #65a9d7, #E0F3FF);
+						padding: 6px 12px;
+						-webkit-border-radius: 5px;
+						-moz-border-radius: 5px;
+						border-radius: 5px;
+						/*-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;*/
+						/*-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;*/
+						/*box-shadow: rgba(0,0,0,1) 0 1px 0;*/
+						/*text-shadow: rgba(0,0,0,.4) 0 1px 0;*/
+						color: black;
+						font-size: 15px;
+						/*font-family: Georgia, serif;*/
+						text-decoration: none;
+						vertical-align: middle;
 					}
 				}				
 			}
 		}
 	}
+}
+
+#post_template {
+	display: none;
 }
