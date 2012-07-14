@@ -10,20 +10,17 @@
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
-			.post
+			.post{:post_id => post.id}
 				.header
 					%p.bot_name= "#{@account.name}:"				
 					.question
 						%p= post.text
 				.answers
-					- post.question.answers.each do |answer|
+					- post.question.answers.shuffle.each do |answer|
 						.answer{:class => ("correct" if answer.correct)}
 							= answer.text
 		#show_more
 			Show More
-			/ %a{:href => "/feeds/#{@account.id}/more", :remote => true} Show more posts
-		/ #show_more
-		/ 	Show more posts
 
 #post_template
 	.header
