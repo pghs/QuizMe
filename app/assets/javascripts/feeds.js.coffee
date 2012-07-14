@@ -16,7 +16,7 @@ class Feed
 		channel.bind 'new_post', (data) => @displayNewPost(data, "prepend")
 	displayNewPost: (data, insertType) => 
 		post = $("#post_template").clone().removeAttr("id").addClass("post").attr("post_id", data.id)
-		post.find(".header p").text("#{@name}:")
+		post.find(".header p").text("#{@name} (3m ago):")
 		post.find(".question p").text(data.text)
 		answers = post.find(".answers")
 		for answer in data.answers#@randomize(data.answers)

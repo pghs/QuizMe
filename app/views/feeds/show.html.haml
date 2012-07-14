@@ -5,14 +5,17 @@
 	#feed_header
 		#feed_image
 			= image_tag('https://twimg0-a.akamaihd.net/profile_images/2320273913/31e2wgbkv1v5d1qdx23j.jpeg')
-		#feed_description
-			This is a feed about biology. Check it ouuuuuuut.
+		#feed_description_container
+			#feed_title
+				= @account.name
+			#feed_description
+				Everything you need to know about biology!
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
 			.post{:post_id => post.id}
 				.header
-					%p.bot_name= "#{@account.name}:"				
+					%p.bot_name= "#{@account.name} (3m ago):"				
 					.question
 						%p= post.text
 				.answers
