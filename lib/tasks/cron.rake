@@ -22,8 +22,8 @@ task :post_next => :environment do
 		# else
 			# Question.post_next_question(a)
 		# end
-		question = Question.post_new_question(a)
-		Pusher[a.name].trigger('new_post', question.as_json(:include => :answers))
+		post = Question.post_new_question(a)
+		Pusher[a.name].trigger('new_post', post.as_json(:include => {:question => {:include => :answers}}))
 		# sleep(10)
 	end
 

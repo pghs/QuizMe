@@ -23,8 +23,8 @@ class Question < ActiveRecord::Base
     end
     
     ##Post to quizme and twitter
-    Post.quizme(current_acct, q.text, q.id)
-    return q
+    post = Post.quizme(current_acct, q.text, q.id)
+    return post
     # Post.tweet(current_acct, q.text, q.url, 'initial', q.id) if current_acct.twi_oauth_token
   end
 

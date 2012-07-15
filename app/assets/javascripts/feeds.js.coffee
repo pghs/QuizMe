@@ -21,7 +21,7 @@ class Feed
 		post.find(".question p").text(data.text)
 		post.css "visibility", "hidden"
 		answers = post.find(".answers")
-		for answer in data.answers#@randomize(data.answers)
+		for answer in data.question.answers#@randomize(data.answers)
 			if answer.correct
 				answers.append("<div class='answer correct'>#{answer.text}</div>")
 			else
@@ -36,8 +36,9 @@ class Feed
 		lastPostID = $(".post").last().attr "post_id"
 		$.getJSON "/feeds/#{@id}/more/#{lastPostID}", (posts) => 
 			if posts.length > 0
-				@displayNewPost(post.question, "append") for post in posts
+				@displayNewPost(post, "append") for post in posts
 			else
+				$("#show_more").text("Last Post Reached")
 				$(window).off "scroll"
 	randomize: (myArray) =>
 		i = myArray.length
@@ -56,6 +57,7 @@ class Post
 	question: null
 	answers: []
 	constructor: (element) ->
+		console.log element
 		@answers = []
 		@element = $(element)
 		@id = @element.attr "post_id"
