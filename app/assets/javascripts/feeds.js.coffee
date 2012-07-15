@@ -15,9 +15,11 @@ class Feed
 		channel = pusher.subscribe(@name)
 		channel.bind 'new_post', (data) => @displayNewPost(data, "prepend")
 	displayNewPost: (data, insertType) => 
+		# $("#feed_content").first().animate({"top": "200px"})
 		post = $("#post_template").clone().removeAttr("id").addClass("post").attr("post_id", data.id)
 		post.find(".header p").text("#{@name} (3m ago):")
 		post.find(".question p").text(data.text)
+		post.css "visibility", "hidden"
 		answers = post.find(".answers")
 		for answer in data.answers#@randomize(data.answers)
 			if answer.correct
@@ -28,6 +30,7 @@ class Feed
 			$("#feed_content").prepend(post)
 		else
 			post.insertBefore("#show_more")
+		post.css('visibility','visible').hide().fadeIn('slow')
 		@questions.push(new Post post)
 	showMore: => 
 		lastPostID = $(".post").last().attr "post_id"

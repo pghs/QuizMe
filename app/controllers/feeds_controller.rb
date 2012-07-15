@@ -5,7 +5,7 @@ class FeedsController < ApplicationController
 
   def show
     @account = Account.find(params[:id])
-    @posts = @account.posts.order(:created_at).limit(5).includes(:question => :answers)
+    @posts = @account.posts.order("created_at DESC").limit(5).includes(:question => :answers)
 
     respond_to do |format|
       format.html # show.html.erb

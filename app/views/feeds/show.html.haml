@@ -13,7 +13,7 @@
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
-			.post{:post_id => post.id}
+			.post{:id => "post_#{post.id}", :post_id => post.id}
 				.header
 					%p.bot_name= "#{@account.name} (3m ago):"				
 					.question
