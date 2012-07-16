@@ -4,7 +4,7 @@
     .span11
       %h3{:style=>'text-align:center;'}= p.text
     .span11
-      %h1{:style=>'text-align:center;'}= p.question.answer
+      %h1{:style=>'text-align:center;'}= p.question.answer if p.question
     -p.mentions.unanswered.each do |m|
       .well.span5{'m_id' => m.id}
         .span4
