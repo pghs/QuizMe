@@ -7,6 +7,7 @@ class MentionsController < ApplicationController
 
   def update
   	m = Mention.find(params[:mention_id])
+  	first = params[:first]=='null' ? nil : params[:first].match(/(true|t|yes|y|1)$/i) != nil
   	correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
 
   	puts m.inspect
@@ -18,8 +19,12 @@ class MentionsController < ApplicationController
 	  	when true
 		  	stat = Stat.find_or_create_by_date(Date.today.to_s)
 		  	stat.increment(:questions_answered_today)
-		  	m.post.mentions.order('sent_date DESC').limit(10).first
-		  	m.respond_correct
+		  	#m.post.mentions.order('sent_date DESC').limit(10).first
+		  	if first
+		  		m.respond_first
+		  	else
+		  		m.respond_correct
+		  	end
 	  	when false
 	  		stat = Stat.find_or_create_by_date(Date.today.to_s)
 		  	stat.increment(:questions_answered_today)
