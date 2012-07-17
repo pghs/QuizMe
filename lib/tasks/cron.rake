@@ -33,6 +33,9 @@ task :save_stats => :environment do
 	end
 end
 
-task :check_followers => :environment do
-	puts 'check followers'	
+task :dm_new_followers => :environment do
+	account = Account.first
+	Post.dm_new_followers(account)
+	sleep(10)
+	end
 end

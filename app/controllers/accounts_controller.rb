@@ -77,4 +77,13 @@ class AccountsController < ApplicationController
 
 		redirect_to accounts_url
   end
+
+  def followers
+    @account = Account.find(params[:id
+    @new_followers = @account.twitter.follower_ids.ids.first 10
+    @messaged = Post.where(:account_id => params[:id],
+                            :provider => 'twitter',
+                            :post_type => 'dm').collect(&:to_twi_user_id)
+
+  end
 end

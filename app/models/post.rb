@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
 
   def self.dm(current_acct, tweet, url, lt, question_id, user_id)
   	short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name) if url
-    res = current_acct.twitter.create_direct_message("#{tweet} #{short_url if short_url}")
+    res = current_acct.twitter.direct_message_create(user_id, "#{tweet} #{short_url if short_url}")
     Post.create(:account_id => current_acct.id,
                 :question_id => question_id,
                 :to_twi_user_id => user_id,
@@ -42,6 +42,22 @@ class Post < ActiveRecord::Base
                 :provider_post_id => res.id.to_s)
   end
 
+  def self.dm_new_followers(current_acct)
+    new_followers = current_acct.twitter.follower_ids.ids.first(10).to_set
+    messaged = current_acct.posts.where(:provider => 'twitter',
+                            :post_type => 'dm').collect(&:to_twi_user_id).to_set
+    to_message = new_followers - messaged
+
+    to_message.each do |id|
+			Post.dm(current_acct,
+							"Here's your first question: How many base pairs make a codon? ", 
+							"http://www.studyegg.com/review/112/10187", 
+							"dm",
+							21,
+							id)
+			sleep(1)
+    end
+  end
 	# def self.get_old_tweets(current_acct)
 	# 	client = current_acct.twitter
 	# 	posts = client.user_timeline(current_acct.twi_screen_name, {:count => 100, :exclude_replies => true})
