@@ -5,12 +5,12 @@ class MentionsController < ApplicationController
 		@posts = current_acct.posts.where('question_id is not null and provider = "twitter"').order('created_at DESC').limit(25)
 	end
 
-  def update
-  	m = Mention.find(params[:mention_id])
-  	correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
+	def update
+		m = Mention.find(params[:mention_id])
+		correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
 
-  	puts m.inspect
-  	if m
+		puts m.inspect
+		if m
 	  	m.update_attributes(:correct => correct,
 	  											:responded => true)
 
@@ -34,6 +34,9 @@ class MentionsController < ApplicationController
 	  	puts 'else'
 	  	#render :nothing => true, :status => 500
 	  end
-  end
+	end
 
+	def scores
+		render :json => Account.get_top_scorers(params[:id])
+	end
 end

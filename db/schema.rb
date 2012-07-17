@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120712210312) do
+ActiveRecord::Schema.define(:version => 20120713154936) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(:version => 20120712210312) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.text     "text"
-    t.boolean  "responded"
-    t.boolean  "first_answer"
+    t.boolean  "responded",                 :default => false
+    t.boolean  "first_answer",              :default => false
     t.boolean  "correct"
     t.string   "twi_tweet_id"
     t.string   "twi_in_reply_to_status_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "sent_date"
   end
 
   create_table "posts", :force => true do |t|
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20120712210312) do
     t.string   "provider_post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "to_twi_user_id"
   end
 
   create_table "questions", :force => true do |t|
@@ -86,7 +88,7 @@ ActiveRecord::Schema.define(:version => 20120712210312) do
     t.integer  "mentions"
     t.integer  "mentions_today"
     t.integer  "questions_answered"
-    t.integer  "questions_answered_today"
+    t.integer  "questions_answered_today",      :default => 0
     t.integer  "unique_active_users"
     t.integer  "three_day_inactive_users"
     t.integer  "one_week_inactive_users"
