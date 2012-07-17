@@ -5,16 +5,10 @@ class MentionsController < ApplicationController
 		@posts = current_acct.posts.where('question_id is not null and provider = "twitter"').order('created_at DESC').limit(25)
 	end
 
-<<<<<<< HEAD
 	def update
 		m = Mention.find(params[:mention_id])
+		first = params[:first]=='null' ? nil : params[:first].match(/(true|t|yes|y|1)$/i) != nil
 		correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
-=======
-  def update
-  	m = Mention.find(params[:mention_id])
-  	first = params[:first]=='null' ? nil : params[:first].match(/(true|t|yes|y|1)$/i) != nil
-  	correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
->>>>>>> 2349eef6f455ab34b923c8012ff22d9c6896fde7
 
 		puts m.inspect
 		if m
