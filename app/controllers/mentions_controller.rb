@@ -7,13 +7,14 @@ class MentionsController < ApplicationController
 
 	def update
 		m = Mention.find(params[:mention_id])
-		first = params[:first]=='null' ? nil : params[:first].match(/(true|t|yes|y|1)$/i) != nil
+		first = params[:first].match(/(true|t|yes|y|1)$/i) != nil
 		correct = params[:correct]=='null' ? nil : params[:correct].match(/(true|t|yes|y|1)$/i) != nil
 
 		puts m.inspect
 		if m
 	  	m.update_attributes(:correct => correct,
-	  											:responded => true)
+	  											:responded => true,
+	  											:first_answer => first)
 
 	  	case correct
 	  	when true

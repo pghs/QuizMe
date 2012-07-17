@@ -37,5 +37,4 @@ task :dm_new_followers => :environment do
 	account = Account.first
 	Post.dm_new_followers(account)
 	sleep(10)
-	end
 end
