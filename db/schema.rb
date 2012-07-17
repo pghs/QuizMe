@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(:version => 20120717205443) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.text     "text"
-    t.boolean  "responded"
-    t.boolean  "first_answer"
+    t.boolean  "responded",                 :default => false
+    t.boolean  "first_answer",              :default => false
     t.boolean  "correct"
     t.string   "twi_tweet_id"
     t.string   "twi_in_reply_to_status_id"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(:version => 20120717205443) do
     t.integer  "mentions"
     t.integer  "mentions_today"
     t.integer  "questions_answered"
-    t.integer  "questions_answered_today"
+    t.integer  "questions_answered_today",      :default => 0
     t.integer  "unique_active_users"
     t.integer  "three_day_inactive_users"
     t.integer  "one_week_inactive_users"
