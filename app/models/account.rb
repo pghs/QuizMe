@@ -1,6 +1,7 @@
 class Account < ActiveRecord::Base
 	has_many :posts
 	has_many :lessonaccesses
+	has_many :stats
 
 	def twitter
 		if self.twi_oauth_token and self.twi_oauth_secret

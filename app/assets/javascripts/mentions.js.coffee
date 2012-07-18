@@ -4,7 +4,7 @@
 
 $ ->
 	$('.btn.btn-success.correct').click -> 
-		respond(true, false$(this).attr('m_id'))
+		respond(true, false, $(this).attr('m_id'))
 	$('.btn.btn-success.first').click -> 
 		respond(true, true, $(this).attr('m_id'))
 	$('.btn.btn-danger.incorrect').click -> 

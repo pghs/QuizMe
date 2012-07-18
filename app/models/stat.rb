@@ -1,4 +1,5 @@
 class Stat < ActiveRecord::Base
+	belongs_to :account
 	def self.collect_daily_stats_for(current_acct)
 		d = Date.today
 		last_post_id = current_acct.posts.where("updated_at > ? and provider = 'twitter' ", Time.now-1.days).first.provider_post_id.to_i

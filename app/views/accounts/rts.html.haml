@@ -1,0 +1,14 @@
+.row
+	%h2= "Retweets for #{@account.twi_screen_name}"
+	%table.table-striped.table-condensed
+		%thead
+			%tr
+				%td tweet
+				%td rt count
+				%td fav
+		%tbody
+			-@rts.each do |r|
+				%tr
+					%td= r.text
+					%td= r.retweet_count
+					%td= r.favorited
