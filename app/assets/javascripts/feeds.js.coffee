@@ -3,9 +3,10 @@ class Feed
 	name: null 
 	questions: []
 	constructor: ->
+		# mixpanel.track("Video play")
 		@name = $("#feed_name").val()
 		@id = $("#feed_id").val()
-		@initializeNewPostListener()
+		# @initializeNewPostListener()
 		@initializeQuestions()
 		$("#show_more").on "click", => @showMore()
 		$(window).on "scroll", => @showMore() if ($(document).height() == $(window).scrollTop() + $(window).height())
