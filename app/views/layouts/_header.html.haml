@@ -2,14 +2,14 @@
 	.navbar-inner
 		.container
 			%a.brand{:href => "/"} QuizMe
-			%ul.nav
-				%li.active
-					%a{:href => "/"} Home
-				-if current_acct
-					%li
-						%a{:href => "/accounts/#{current_acct.id}/edit"} Edit
-			-if current_user
-				%h3= "Welcome #{current_user.twi_screen_name}!"
-				= link_to "Sign Out", signout_path
-			-else
-				= link_to "Sign in with Twitter", "/auth/twitter"
+			/ %ul.nav
+			/ 	%li.active
+			/ 		%a{:href => "/"} Home
+			/ 	-if current_acct
+			/ 		%li
+			/ 			%a{:href => "/accounts/#{current_acct.id}/edit"} Edit
+			/ -if current_user
+			/ 	%h3= "Welcome #{current_user.twi_screen_name}!"
+			/ 	= link_to "Sign Out", signout_path
+			/ -else
+			/ 	= link_to "Sign in with Twitter", "/auth/twitter"

@@ -4,10 +4,11 @@
 #feed_container
 	#feed_header
 		#feed_image
-			= image_tag('https://twimg0-a.akamaihd.net/profile_images/2320273913/31e2wgbkv1v5d1qdx23j.jpeg')
+			= image_tag("DNA.jpeg")
 		#feed_description_container
 			#feed_title
-				= @account.name
+				QuizMeBio
+				/ = @account.name
 			#feed_description
 				Everything you need to know about biology!
 		#feed_stats
@@ -15,7 +16,8 @@
 		- @posts.each do |post|
 			.post{:id => "post_#{post.id}", :post_id => post.id}
 				.header
-					%p.bot_name= "#{@account.name} (3m ago):"				
+					/ %p.bot_name= "#{@account.name}:"
+					%p.bot_name BioBot:
 					.question
 						%p= post.text
 				.answers
