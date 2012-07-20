@@ -54,6 +54,7 @@
 		%tbody
 			-@stats.each do |s|
 				%tr
+					%td= s.date
 					%td= s.three_day_inactive_users
 					%td= s.one_week_inactive_users
 					%td= s.one_month_plus_inactive_users

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717205443) do
+ActiveRecord::Schema.define(:version => 20120719205804) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20120717205443) do
     t.string   "tum_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_per_day",       :default => 1
   end
 
   create_table "lessonaccesses", :force => true do |t|
@@ -41,14 +42,22 @@ ActiveRecord::Schema.define(:version => 20120717205443) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.text     "text"
-    t.boolean  "responded",                 :default => false
-    t.boolean  "first_answer",              :default => false
+    t.boolean  "responded"
+    t.boolean  "first_answer"
     t.boolean  "correct"
     t.string   "twi_tweet_id"
     t.string   "twi_in_reply_to_status_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "sent_date"
+  end
+
+  create_table "post_queues", :force => true do |t|
+    t.integer  "account_id"
+    t.integer  "index"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "posts", :force => true do |t|
@@ -88,7 +97,7 @@ ActiveRecord::Schema.define(:version => 20120717205443) do
     t.integer  "mentions"
     t.integer  "mentions_today"
     t.integer  "questions_answered"
-    t.integer  "questions_answered_today",      :default => 0
+    t.integer  "questions_answered_today"
     t.integer  "unique_active_users"
     t.integer  "three_day_inactive_users"
     t.integer  "one_week_inactive_users"

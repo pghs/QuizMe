@@ -13,6 +13,16 @@ class Account < ActiveRecord::Base
 		client
 	end
 
+	def tumblr
+		if self.tum_oauth_token and self.tum_oauth_secret
+			client = Tumblife::Client.new(:consumer_key => SERVICES['tumblr']['key'],
+																 :consumer_secret => SERVICES['tumblr']['secret'],
+																 :oauth_token => self.tum_oauth_token,
+																 :oauth_token_secret => self.tum_oauth_secret)
+		end
+		client
+	end
+
 	def unanswered
 		count = 0
 		self.posts.each do |p|

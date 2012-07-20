@@ -13,15 +13,20 @@ end
 
 task :tweet => :environment do
 	t = Time.now
-	accounts = Account.where('twi_oauth_token is not null')
+	accounts = Account.all
 	accounts.each do |a|
-		# if t.hour%3==0
-		# 	p = a.posts.last
-		# 	p.repost_tweet('Review: ')
-		# else
-			Question.tweet_next_question(a)
-		# end
+		shift = (t.hour/a.posts_per_day.to_f).floor + 1
+		queue_index = t.hour%a.posts_per_day
+		Question.post_question(a, queue_index, shift)
 		sleep(10)
+	end
+end
+
+task :fill_queue => :environment do
+	PostQueue.clear_queue
+	accounts = Account.all
+	accounts.each do |a|
+		Question.select_questions_to_post(a, 7)
 	end
 end
 

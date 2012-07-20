@@ -42,6 +42,21 @@ class Post < ActiveRecord::Base
                 :provider_post_id => res.id.to_s)
   end
 
+  def self.create_tumblr_post(current_acct, text, url, lt, question_id)
+  	short_url = Post.shorten_url(url, 'tum', lt, current_acct.twi_screen_name)
+    res = current_acct.tumblr.text(current_acct.tum_url,
+                                    :title => "Daily Quiz!",
+                                    :body => "#{text} #{short_url}")
+    Post.create(:account_id => current_acct.id,
+                :question_id => question_id,
+                :provider => 'tumblr',
+                :text => text,
+                :url => short_url,
+                :link_type => lt,
+                :post_type => 'text',
+                :provider_post_id => res.id.to_s)
+  end
+
   def self.dm_new_followers(current_acct)
     new_followers = current_acct.twitter.follower_ids.ids.first(10).to_set
     messaged = current_acct.posts.where(:provider => 'twitter',

@@ -18,7 +18,7 @@ class MentionsController < ApplicationController
 
 	  	case correct
 	  	when true
-		  	stat = Stat.find_or_create_by_date(Date.today.to_s)
+		  	stat = Stat.find_or_create_by_date_and_account_id(Date.today.to_s, m.post.account_id)
 		  	stat.increment(:questions_answered_today)
 		  	#m.post.mentions.order('sent_date DESC').limit(10).first
 		  	if first
@@ -27,7 +27,7 @@ class MentionsController < ApplicationController
 		  		m.respond_correct
 		  	end
 	  	when false
-	  		stat = Stat.find_or_create_by_date(Date.today.to_s)
+	  		stat = Stat.find_or_create_by_date_and_account_id(Date.today.to_s, m.post.account_id)
 		  	stat.increment(:questions_answered_today)
 		  	m.respond_incorrect
 	  	when nil
