@@ -14,7 +14,7 @@
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
-			.post{:id => "post_#{post.id}", :post_id => post.id}
+			.post{:id => "question_#{post.question.id}", :post_id => post.id}
 				.header
 					/ %p.bot_name= "#{@account.name}:"
 					%p.bot_name BioBot:

@@ -23,9 +23,10 @@ class Question < ActiveRecord::Base
     end
     
     ##Post to quizme and twitter
+    url = "http://studyegg-quizme.herokuapp.com/feeds/#{current_acct.id}#question_#{q.id}"
     post = Post.quizme(current_acct, q.text, q.id)
+    Post.tweet(current_acct, q.text, url, 'initial', q.id) if current_acct.twi_oauth_token
     return post
-    # Post.tweet(current_acct, q.text, q.url, 'initial', q.id) if current_acct.twi_oauth_token
   end
 
 
