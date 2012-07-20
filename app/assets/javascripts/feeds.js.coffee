@@ -4,16 +4,7 @@ class Feed
 	questions: []
 	answered: 0
 	constructor: ->
-		# mixpanel.track 'signup',
-		    # 'age': 37,
-		    # 'gender': 'male',
-		    # 'name': 'Joe Schmoe'
-		# mixpanel.people("Video play")
-		# console.log mixpanel
-		# mixpanel.track("test")
-		# mixpanel.identify("dummy")
-		# mixpanel.people.set({"age", "26"})
-
+		mixpanel.track("page_loaded")
 		@name = $("#feed_name").val()
 		@id = $("#feed_id").val()
 		# @initializeNewPostListener()
