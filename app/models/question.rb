@@ -31,7 +31,9 @@ class Question < ActiveRecord::Base
   end
 
   def self.post_question(current_acct, queue_index, shift)
-    q_id = PostQueue.find_by_account_id_and_index(current_acct.id, queue_index).question_id
+    pq = PostQueue.find_by_account_id_and_index(current_acct.id, queue_index)
+    return unless pq
+    q_id = pq.question_id
     q = Question.find(q_id)
     puts "TWEET: #{q.question}"
     Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
