@@ -34,9 +34,9 @@ class Question < ActiveRecord::Base
     q_id = PostQueue.find_by_account_id_and_index(current_acct.id, queue_index).question_id
     q = Question.find(q_id)
     puts "TWEET: #{q.question}"
-    #Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
+    Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
     puts "TUMBLR: #{q.question}"
-    #Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
+    Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
   end
 
 
