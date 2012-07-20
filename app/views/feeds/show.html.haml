@@ -4,20 +4,19 @@
 #feed_container
 	#feed_header
 		#feed_image
-			= image_tag("DNA.jpeg")
+			= image_tag(@account.twi_profile_img_url)
 		#feed_description_container
 			#feed_title
-				QuizMeBio
-				/ = @account.name
+				= @account.name
 			#feed_description
-				Everything you need to know about biology!
+				Everything you need to know about Chemistry!
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
 			.post{:id => "question_#{post.question.id}", :post_id => post.id}
 				.header
-					/ %p.bot_name= "#{@account.name}:"
-					%p.bot_name BioBot:
+					%p.bot_name= "#{@account.name}:"
+					/ %p.bot_name BioBot:
 					.question
 						%p= post.text
 				.answers
