@@ -2,8 +2,18 @@ class Feed
 	id: null
 	name: null 
 	questions: []
+	answered: 0
 	constructor: ->
-		# mixpanel.track("Video play")
+		# mixpanel.track 'signup',
+		    # 'age': 37,
+		    # 'gender': 'male',
+		    # 'name': 'Joe Schmoe'
+		# mixpanel.people("Video play")
+		# console.log mixpanel
+		# mixpanel.track("test")
+		# mixpanel.identify("dummy")
+		# mixpanel.people.set({"age", "26"})
+
 		@name = $("#feed_name").val()
 		@id = $("#feed_id").val()
 		# @initializeNewPostListener()
@@ -58,13 +68,14 @@ class Post
 	question: null
 	answers: []
 	constructor: (element) ->
-		console.log element
 		@answers = []
 		@element = $(element)
 		@id = @element.attr "post_id"
 		@question = @element.find(".question").text()
 		@answers.push(new Answer answer, @) for answer in @element.find(".answer")
 	answered: (correct) =>
+		window.feed.answered += 1
+		mixpanel.track("answered", {"count" : window.feed.answered})
 		if correct
 			@element.css("background", "rgba(0, 59, 5, .2)")
 		else
