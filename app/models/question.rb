@@ -12,10 +12,7 @@ class Question < ActiveRecord::Base
   def self.select_questions_to_post(current_acct, num_days_back_to_exclude)
     recent_question_ids = current_acct.posts.where("question_id is not null and created_at > ?", Date.today - num_days_back_to_exclude).order('created_at DESC').collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
-    access = Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id)
-    access = access.empty? ? [0] : access
-    questions = Question.where("studyegg_id in (?) and id not in (?)", access, recent_question_ids)
-
+    questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids).includes(:answers)
     q = questions.sample
     queue = []
     while queue.size < current_acct.posts_per_day
