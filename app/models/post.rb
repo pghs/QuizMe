@@ -9,11 +9,11 @@ class Post < ActiveRecord::Base
 		Post.tweet(account, self.text, self.question.url, "repost", self.question_id)
 	end
 
-	def self.shorten_url(url, source, lt, campaign, question_id)
+	def self.shorten_url(url, source, lt, campaign, question_id, link_to_quizme=false)
 		authorize = UrlShortener::Authorize.new 'o_29ddlvmooi', 'R_4ec3c67bda1c95912185bc701667d197'
     shortener = UrlShortener::Client.new authorize
     url = nil
-    if current_acct.link_to_quizme
+    if link_to_quizme
       url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}#question_#{question_id}").urls
     else
       url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}").urls
@@ -22,7 +22,7 @@ class Post < ActiveRecord::Base
 	end
 
 	def self.tweet(current_acct, tweet, url, lt, question_id)
-		short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name, question_id)
+		short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name, question_id, current_acct.link_to_quizme)
     res = current_acct.twitter.update("#{tweet} #{short_url}")
     Post.create(:account_id => current_acct.id,
                 :question_id => question_id,
