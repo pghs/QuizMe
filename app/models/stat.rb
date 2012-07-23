@@ -1,10 +1,12 @@
 class Stat < ActiveRecord::Base
+	belongs_to :account
+	
 	def self.collect_daily_stats_for(current_acct)
 		d = Date.today
 		last_post_id = current_acct.posts.where("updated_at > ? and provider = 'twitter' ", Time.now-1.days).first.provider_post_id.to_i
-		today = Stat.find_or_create_by_date((d - 1.days).to_s)
+		today = Stat.find_or_create_by_date_and_account_id((d - 1.days).to_s, current_acct.id)
 		client = current_acct.twitter
-		yesterday = Stat.get_yesterday
+		yesterday = Stat.get_yesterday(current_acct.id)
 		twi_account = client.user
 		
 		followers = twi_account.follower_count
@@ -46,14 +48,14 @@ class Stat < ActiveRecord::Base
 														:one_month_plus_inactive_users => one_month_plus_inactive_users)
 	end
 
-	def self.get_yesterday
+	def self.get_yesterday(id)
 		###get yesterdays stats or create dummy yesterday for math
 		d = Date.today
 		num_days_back = 2
-		yesterday = Stat.find_by_date((d - num_days_back.days).to_s)
+		yesterday = Stat.find_by_date_and_account_id((d - num_days_back.days).to_s, id)
 		while yesterday.nil? and num_days_back <= 8
 			num_days_back += 1
-			yesterday = Stat.find_by_date((d - num_days_back.days).to_s)
+			yesterday = Stat.find_by_date_and_account_id((d - num_days_back.days).to_s, id)
 		end
 		if yesterday.nil?
 			yesterday = Stat.new

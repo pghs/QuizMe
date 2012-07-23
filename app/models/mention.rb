@@ -41,6 +41,20 @@ class Mention < ActiveRecord::Base
 		Post.tweet(account, tweet, self.post.question.url, 'inc', nil)
 	end
 
+	def respond_first
+		fast = ["Fast fingers! Faster brain!",
+						"Speed demon!",
+						"Woah! Greased lightning!",
+						"Too quick to handle!",
+						"Winning isn't everything.  But it certainly is nice ;)",
+						"Fastest Finger Award Winner!",
+						"Hey, gunslinger! Fastest hands on the interwebs!"
+							]
+		account = Account.find(self.post.account_id)
+		tweet = "#{fast.sample} @#{self.user.twi_screen_name} had the fastest right answer on that one!"
+		Post.tweet(account, tweet, self.post.question.url, 'fast', nil)
+	end
+
 
 	def self.check_mentions(current_acct)
 		client = current_acct.twitter

@@ -31,7 +31,7 @@ class Post < ActiveRecord::Base
 
   def self.dm(current_acct, tweet, url, lt, question_id, user_id)
   	short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name) if url
-    res = current_acct.twitter.create_direct_message("#{tweet} #{short_url if short_url}")
+    res = current_acct.twitter.direct_message_create(user_id, "#{tweet} #{short_url if short_url}")
     Post.create(:account_id => current_acct.id,
                 :question_id => question_id,
                 :to_twi_user_id => user_id,
@@ -42,7 +42,7 @@ class Post < ActiveRecord::Base
                 :post_type => 'dm',
                 :provider_post_id => res.id.to_s)
   end
-
+  
   def self.quizme(current_acct, question, question_id)
   	Post.create(:account_id => current_acct.id,
                 :question_id => question_id,
