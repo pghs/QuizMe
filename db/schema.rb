@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713192927) do
+ActiveRecord::Schema.define(:version => 20120723212146) do
 
   create_table "accounts", :force => true do |t|
     t.string    "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.string    "tum_url"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.integer   "posts_per_day",       :default => 1
+    t.text      "description"
   end
 
   create_table "accountstopics", :force => true do |t|
@@ -53,6 +55,14 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.string    "twi_tweet_id"
     t.string    "twi_in_reply_to_status_id"
     t.timestamp "sent_date"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "post_queues", :force => true do |t|
+    t.integer   "account_id"
+    t.integer   "index"
+    t.integer   "question_id"
     t.timestamp "created_at"
     t.timestamp "updated_at"
   end
@@ -107,6 +117,7 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.integer   "one_month_plus_inactive_users"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.integer   "account_id"
   end
 
   create_table "topics", :force => true do |t|
