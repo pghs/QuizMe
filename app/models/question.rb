@@ -4,8 +4,8 @@ class Question < ActiveRecord::Base
   belongs_to :topic
 
   def is_tweetable?
-      return false if self.question =~ /image/ or self.question =~ /picture/
-      return "#{self.question}".length + 14 < 141
+      return false if self.text =~ /image/ or self.text =~ /picture/
+      return "#{self.text}".length + 14 < 141
   end
 
 
@@ -13,7 +13,9 @@ class Question < ActiveRecord::Base
     recent_question_ids = current_acct.posts.where("question_id is not null and created_at > ?", Date.today - num_days_back_to_exclude).order('created_at DESC').collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
     questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids).includes(:answers)
+    puts questions.count
     q = questions.sample
+    puts q.inspect
     queue = []
     while queue.size < current_acct.posts_per_day
       if q.is_tweetable? && !queue.include?(q)
