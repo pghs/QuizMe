@@ -80,7 +80,9 @@ class Question < ActiveRecord::Base
   end
 
   def self.import_studyegg_from_qb(egg_id, topic_name)
+    puts "yo son"
     egg = Question.get_studyegg_details(egg_id)
+    puts egg.to_json
     egg['chapters'].each do |ch|
       Question.save_lesson(ch, topic_name)
     end
