@@ -3,8 +3,23 @@ class Account < ActiveRecord::Base
 	has_many :topics, :through => :accountstopics
 	has_many :accountstopics
 
+	def twitter_enabled?
+		return true if self.twi_oauth_token and self.twi_oauth_secret
+		return false
+	end
+
+	def tumblr_enabled?
+		return true if self.tum_oauth_token and self.tum_oauth_secret
+		return false
+	end
+
+	def facebook_enabled?
+		return true if self.fb_oauth_token and self.fb_oauth_secret
+		return false
+	end
+
 	def twitter
-		if self.twi_oauth_token and self.twi_oauth_secret
+		if self.twitter_enabled?
 			client = Twitter::Client.new(:consumer_key => SERVICES['twitter']['key'],
 																 :consumer_secret => SERVICES['twitter']['secret'],
 																 :oauth_token => self.twi_oauth_token,
@@ -14,7 +29,7 @@ class Account < ActiveRecord::Base
 	end
 
 	def tumblr
-		if self.tum_oauth_token and self.tum_oauth_secret
+		if self.tumblr_enabled?
 			client = Tumblife::Client.new(:consumer_key => SERVICES['tumblr']['key'],
 																 :consumer_secret => SERVICES['tumblr']['secret'],
 																 :oauth_token => self.tum_oauth_token,

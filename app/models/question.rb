@@ -3,30 +3,32 @@ class Question < ActiveRecord::Base
   has_many :answers
   belongs_to :topic
 
-  def create_tweet
-      return nil if self.text =~ /Which of the following/ or self.text =~ /image/ or self.text =~ /picture/
-      return "#{self.text}" if "#{self.text}".length + 14 < 141
-      nil
+  def is_tweetable?
+      return false if self.question =~ /image/ or self.question =~ /picture/
+      return "#{self.question}".length + 14 < 141
   end
 
-  def self.post_new_question(current_acct)
-    # recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'twitter'").order('created_at DESC').limit(100).collect(&:question_id)
-    recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'quizme'").order('created_at DESC').limit(100).collect(&:question_id)
+
+  def self.select_questions_to_post(current_acct, num_days_back_to_exclude)
+    recent_question_ids = current_acct.posts.where("question_id is not null and created_at > ?", Date.today - num_days_back_to_exclude).order('created_at DESC').collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
-    questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids).includes(:answers)
+    access = Lessonaccess.where(:account_id => current_acct.id).collect(&:studyegg_id)
+    access = access.empty? ? [0] : access
+    questions = Question.where("studyegg_id in (?) and id not in (?)", access, recent_question_ids)
+
     q = questions.sample
-    i = 0
-    while q.create_tweet.nil?
-      q = questions.sample
-      i+=1
-      raise 'COULD NOT FIND NEW QUESTION TO TWEET' if i>100
+    queue = []
+    while queue.size < current_acct.posts_per_day
+      if q.is_tweetable? && !queue.include?(q)
+        puts 'added'
+        queue << q
+        q = questions.sample
+      else
+        puts 'finding new q'
+        q = questions.sample
+      end
     end
-    
-    ##Post to quizme and twitter
-    url = "http://studyegg-quizme.herokuapp.com/feeds/#{current_acct.id}"
-    post = Post.quizme(current_acct, q.text, q.id)
-    Post.tweet(current_acct, q.text, url, 'initial', q.id) if current_acct.twi_oauth_token
-    return post
+    PostQueue.enqueue_questions(current_acct, queue)
   end
 
   def self.post_question(current_acct, queue_index, shift)
@@ -35,9 +37,14 @@ class Question < ActiveRecord::Base
     q_id = pq.question_id
     q = Question.find(q_id)
     puts "TWEET: #{q.question}"
-    Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
+    post = Post.quizme(current_acct, q.text, q.id)
+    url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
+    if current_acct.link_to_quizme
+      url = "http://studyegg-quizme.herokuapp.com/feeds/#{current_acct.id}"
+    end
+    Post.tweet(current_acct, q.question, url, "initial#{shift}", q.id) if current_acct.twitter_enabled?
     puts "TUMBLR: #{q.question}"
-    Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
+    Post.create_tumblr_post(current_acct, q.question, url, "initial#{shift}", q.id) if current_acct.tumblr_enabled?
   end
 
 
@@ -111,8 +118,10 @@ class Question < ActiveRecord::Base
       return if questions['questions'].nil?
       topic = Topic.find_or_create_by_name(topic_name)
       questions['questions'].each do |q|
-        new_q = Question.create(:text => Question.clean_and_clip_question(q['question']),
-                                :topic_id => topic.id)
+        new_q = Question.find_or_create_by_text(Question.clean_and_clip_question(q['question']))
+        new_q.topic_id = topic.id
+        new_q.qb_lesson_id = @lesson_id
+        new_q.qb_q_id = q['id']
         q['answers'].each do |a|
           Answer.create(:text => Question.clean_text(a['answer']),
                         :correct => a['correct'],

@@ -12,25 +12,15 @@ task :check_mentions => :environment do
 	end
 end
 
-task :post_next => :environment do
+task :post_question => :environment do
 	t = Time.now
 	accounts = Account.all
 	accounts.each do |a|
-		# if t.hour%3==0
-		# 	p = a.posts.last
-		# 	p.repost_tweet('Review: ')
-		# else
-			# Question.post_next_question(a)
-		# end
-		post = Question.post_new_question(a)
-		# Pusher[a.name].trigger('new_post', post.as_json(:include => {:question => {:include => :answers}}))
-		# sleep(10)
+		shift = (t.hour/a.posts_per_day.to_f).floor + 1
+		queue_index = t.hour%a.posts_per_day
+		Question.post_question(a, queue_index, shift)
+		sleep(10)
 	end
-
-	# NOTE: the push should contain the new post to be added to each feed. We
-	# could have a separate channel for each feed. Alternatively, all feeds
-	# listen to the same channel, ALL new posts would get pushed to all feeds
-	# where they would sort them out.
 end
 
 task :fill_queue => :environment do
@@ -49,6 +39,8 @@ task :save_stats => :environment do
 	end
 end
 
-task :check_followers => :environment do
-	puts "check followers"	
+task :dm_new_followers => :environment do
+	account = Account.first
+	Post.dm_new_followers(account)
+	sleep(10)
 end

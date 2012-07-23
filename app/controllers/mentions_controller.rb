@@ -12,9 +12,8 @@ class MentionsController < ApplicationController
 
 		puts m.inspect
 		if m
-	  	m.update_attributes(:correct => correct,
-	  											:responded => true,
-	  											:first_answer => first)
+	  	m.update_attributes(:responded => true)
+	  	Rep.create(:user_id => m.user_ud, :post_id => m.post_id, :correct => correct) if correct
 
 	  	case correct
 	  	when true
