@@ -1,24 +1,34 @@
+= hidden_field_tag :feed_id, @account.id
+= hidden_field_tag :feed_name, @account.name
+
 #feed_container
 	#feed_header
 		#feed_image
-			= image_tag('https://twimg0-a.akamaihd.net/profile_images/2320273913/31e2wgbkv1v5d1qdx23j.jpeg')
-		#feed_description
-			This is a feed about biology. Check it ouuuuuuut.
+			= image_tag(@account.twi_profile_img_url)
+		#feed_description_container
+			#feed_title
+				= @account.name
+			#feed_description
+				Everything you need to know about Chemistry!
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
-			.post
+			.post{:id => "question_#{post.question.id}", :post_id => post.id}
 				.header
-					BiologyBot (3m ago):
-				.content
+					%p.bot_name= "#{@account.name}:"
+					/ %p.bot_name BioBot:
 					.question
 						%p= post.text
-					.answers
-						.answer
-							Answer #1
-						.answer
-							Answer #2
-						.answer
-							Answer #3
-						.answer
-							Answer #4
+				.answers
+					- post.question.answers.shuffle.each do |answer|
+						.answer{:class => ("correct" if answer.correct)}
+							= answer.text
+		#show_more
+			Show More
+
+#post_template
+	.header
+		%p.bot_name QuizMeBot
+		.question
+			%p Oops!
+	.answers

@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
 	has_many :posts
+  has_many :answers
   belongs_to :topic
 
   def create_tweet
@@ -9,25 +10,23 @@ class Question < ActiveRecord::Base
   end
 
   def self.post_new_question(current_acct)
-    puts 'Finding tweet'
-    recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'twitter'").order('created_at DESC').limit(100).collect(&:question_id)
+    # recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'twitter'").order('created_at DESC').limit(100).collect(&:question_id)
+    recent_question_ids = current_acct.posts.where("question_id is not null and provider = 'quizme'").order('created_at DESC').limit(100).collect(&:question_id)
     recent_question_ids = recent_question_ids.empty? ? [0] : recent_question_ids
-    puts recent_question_ids
-    questions = current_acct.questions.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id) recent_question_ids)
-
+    questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids).includes(:answers)
     q = questions.sample
     i = 0
-    puts "q.id #{q.id}"
     while q.create_tweet.nil?
       q = questions.sample
       i+=1
       raise 'COULD NOT FIND NEW QUESTION TO TWEET' if i>100
     end
-    puts 'FOUND!'
     
     ##Post to quizme and twitter
-    Post.quizme(current_acct, q.text, q.id)
-    Post.tweet(current_acct, q.text, q.url, 'initial', q.id) if current_acct.twi_oauth_token
+    url = "http://studyegg-quizme.herokuapp.com/feeds/#{current_acct.id}"
+    post = Post.quizme(current_acct, q.text, q.id)
+    Post.tweet(current_acct, q.text, url, 'initial', q.id) if current_acct.twi_oauth_token
+    return post
   end
 
   def self.post_question(current_acct, queue_index, shift)

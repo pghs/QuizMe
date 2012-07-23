@@ -8,3 +8,18 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
+if (!window.console) console = {log: function() {}}
+
+function DummyMixpanel() {
+	this.track = function() {};
+	this.track_pageview = function() {};
+	this.track_links = function() {};
+	this.track_forms = function() {};
+	this.register = function() {};
+	this.register_once = function() {};
+	this.unregister = function() {};
+	this.identify = function() {};
+	this.name_tag = function() {};
+	this.set_config = function() {};
+}
