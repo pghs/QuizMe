@@ -8,8 +8,7 @@
 		#feed_description_container
 			#feed_title
 				= @account.name
-			#feed_description
-				Everything you need to know about Chemistry!
+			#feed_description= "Everything you need to know about #{@account.topics.first.name}!"
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|
