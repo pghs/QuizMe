@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.string   "tum_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_per_day",       :default => 1
   end
 
   create_table "accountstopics", :force => true do |t|
@@ -55,6 +56,15 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.datetime "sent_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "sent_date"
+  end
+
+  create_table "post_queues", :force => true do |t|
+    t.integer  "account_id"
+    t.integer  "index"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "posts", :force => true do |t|
@@ -69,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20120713192927) do
     t.integer  "to_twi_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "to_twi_user_id"
   end
 
   create_table "questions", :force => true do |t|

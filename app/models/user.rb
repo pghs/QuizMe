@@ -44,4 +44,5 @@ class User < ActiveRecord::Base
 												:twi_screen_name => user.screen_name,
 												:twi_profile_img_url => user.status.user.profile_image_url)
 	end
+
 end

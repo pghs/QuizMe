@@ -4,13 +4,16 @@
     .span11
       %h3{:style=>'text-align:center;'}= p.text
     .span11
-      %h1{:style=>'text-align:center;'}= p.question.answer
+      %h1{:style=>'text-align:center;'}= p.question.answer if p.question
     -p.mentions.unanswered.each do |m|
       .well.span5{'m_id' => m.id}
         .span4
           %h5= "@#{m.user.twi_screen_name}" if m.user
+          %h5= "#{m.sent_date}" if m.sent_date
           %h3= raw m.text
         .span4
-          %button.btn.btn-success{'m_id' => m.id} Correct
-          %button.btn.btn-danger{'m_id' => m.id} Incorrect
-          %button.btn.btn-warning{'m_id' => m.id} Skip
+          .btn-group
+            %button.btn.btn-success.first{'m_id' => m.id} First
+            %button.btn.btn-success.correct{'m_id' => m.id} Correct
+          %button.btn.btn-danger.incorrect{'m_id' => m.id} Incorrect
+          %button.btn.btn-warning.skip{'m_id' => m.id} Skip

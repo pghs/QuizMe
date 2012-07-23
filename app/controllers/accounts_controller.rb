@@ -74,4 +74,21 @@ class AccountsController < ApplicationController
 
 		redirect_to accounts_url
   end
+
+  def stats
+    @account = Account.find(params[:id])
+    @stats = @account.stats
+  end
+
+  def rts
+    @account = Account.find(params[:id])
+    @rts = @account.twitter.retweets_of_me({:count => 50})
+    #raise @rts.first.to_yaml
+    @rts.each do |r|
+      puts r.text
+      #puts r.screen_name
+      puts r.user.screen_name
+    end
+  end
+
 end

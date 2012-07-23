@@ -1,0 +1,60 @@
+.row
+	%h2= "Account Stats for #{@account.twi_screen_name}"
+	%table.table-striped.table-condensed
+		%thead
+			%tr
+				%td date
+				%td followers
+				%td follower change
+				%td friends
+				%td friend change
+				%td tweets
+				%td tweets sent
+		%tbody
+			-@stats.each do |s|
+				%tr
+					%td= s.date
+					%td= s.followers
+					%td= s.followers_delta
+					%td= s.friends
+					%td= s.friends_delta
+					%td= s.tweets
+					%td= s.tweets_delta
+
+	%h2 Interations
+	%table.table-striped.table-condensed
+		%thead
+			%tr
+				%td date
+				%td total rts
+				%td rts today
+				%td total mentions
+				%td mentions today
+				%td questions answered
+				%td unique active users
+		%tbody
+			-@stats.each do |s|
+				%tr
+					%td= s.date
+					%td= s.rts
+					%td= s.rts_today
+					%td= s.mentions
+					%td= s.mentions_today
+					%td= s.questions_answered
+					%td= s.unique_active_users
+
+	%h2 Inactivity Stats
+	%table.table-striped.table-condensed
+		%thead
+			%tr
+				%td date
+				%td 3 day inactives
+				%td 1 week inactives
+				%td 1 month inactives
+		%tbody
+			-@stats.each do |s|
+				%tr
+					%td= s.date
+					%td= s.three_day_inactive_users
+					%td= s.one_week_inactive_users
+					%td= s.one_month_plus_inactive_users

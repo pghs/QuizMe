@@ -22,6 +22,14 @@ task :post_next => :environment do
 	end
 end
 
+task :fill_queue => :environment do
+	PostQueue.clear_queue
+	accounts = Account.all
+	accounts.each do |a|
+		Question.select_questions_to_post(a, 7)
+	end
+end
+
 task :save_stats => :environment do
 	accounts = Account.where('twi_oauth_token is not null')
 	accounts.each do |a|
