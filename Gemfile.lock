@@ -53,8 +53,6 @@ GEM
       multi_json (~> 1.0)
     faraday (0.8.1)
       multipart-post (~> 1.1)
-    faraday_middleware (0.8.8)
-      faraday (>= 0.7.4, < 0.9)
     haml (3.1.6)
     hashie (1.2.0)
     hike (1.2.1)
@@ -172,12 +170,6 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    tumblife (1.2.0)
-      faraday (~> 0.8.0)
-      faraday_middleware (~> 0.8.7)
-      hashie (~> 1.2.0)
-      multi_json (~> 1.3.5)
-      simple_oauth (~> 0.1.8)
     turn (0.8.2)
       ansi (>= 1.2.2)
     twitter (3.0.2)
@@ -222,7 +214,6 @@ DEPENDENCIES
   sass-rails
   sqlite3
   therubyracer
-  tumblife
   turn
   twitter
   twitter-bootstrap-rails
