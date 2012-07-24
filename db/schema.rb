@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
     t.datetime "updated_at"
   end
 
+  create_table "post_queues", :force => true do |t|
+    t.integer   "account_id"
+    t.integer   "index"
+    t.integer   "question_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
   create_table "posts", :force => true do |t|
     t.integer  "account_id"
     t.integer  "question_id"
@@ -100,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
   end
 
   create_table "stats", :force => true do |t|
+<<<<<<< HEAD
     t.string   "date"
     t.integer  "followers"
     t.integer  "followers_delta"
@@ -120,6 +129,28 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
+=======
+    t.string    "date"
+    t.integer   "followers"
+    t.integer   "followers_delta"
+    t.integer   "friends"
+    t.integer   "friends_delta"
+    t.integer   "tweets"
+    t.integer   "tweets_delta"
+    t.integer   "rts"
+    t.integer   "rts_today"
+    t.integer   "mentions"
+    t.integer   "mentions_today"
+    t.integer   "questions_answered"
+    t.integer   "questions_answered_today",      :default => 0
+    t.integer   "unique_active_users"
+    t.integer   "three_day_inactive_users"
+    t.integer   "one_week_inactive_users"
+    t.integer   "one_month_plus_inactive_users"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "account_id"
+>>>>>>> ccdb0df3f34984fb4ccfb844d5bd81df19e83bb3
   end
 
   create_table "topics", :force => true do |t|

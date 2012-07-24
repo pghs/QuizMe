@@ -38,6 +38,7 @@ class Question < ActiveRecord::Base
     return unless pq
     q_id = pq.question_id
     q = Question.find(q_id)
+<<<<<<< HEAD
     puts "TWEET: #{q.text}"
     post = Post.quizme(current_acct, q.text, q.id)
     url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
@@ -47,6 +48,10 @@ class Question < ActiveRecord::Base
     Post.tweet(current_acct, q.text, url, "initial#{shift}", q.id) if current_acct.twitter_enabled?
     puts "TUMBLR: #{q.text}"
     Post.create_tumblr_post(current_acct, q.text, url, "initial#{shift}", q.id) if current_acct.tumblr_enabled?
+=======
+    Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
+    Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
+>>>>>>> ccdb0df3f34984fb4ccfb844d5bd81df19e83bb3
   end
 
 
@@ -114,7 +119,6 @@ class Question < ActiveRecord::Base
 
   def self.save_lesson(lesson, topic_name)
     @lesson_id = lesson['id'].to_i
-    puts @lesson_id
     if @lesson_id
       questions = Question.get_lesson_questions(@lesson_id)
       return if questions['questions'].nil?

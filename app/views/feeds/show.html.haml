@@ -9,7 +9,12 @@
 			#feed_title
 				= @account.name
 			#feed_description
-				Everything you need to know about Chemistry!
+				= @account.description
+				- if @account.id == 3
+					%p
+						Check out
+						%a#gotham{:href => "http://www.bikegotham.com/", :target => "_blank"}= "our friends at Gotham"
+						for some cool bike gear, including an awesome theft-proof bike light.
 		#feed_stats
 	#feed_content
 		- @posts.each do |post|

@@ -4,13 +4,14 @@ class Feed
 	questions: []
 	answered: 0
 	constructor: ->
-		mixpanel.track("page_loaded")
 		@name = $("#feed_name").val()
 		@id = $("#feed_id").val()
 		# @initializeNewPostListener()
 		@initializeQuestions()
 		$("#show_more").on "click", => @showMore()
 		$(window).on "scroll", => @showMore() if ($(document).height() == $(window).scrollTop() + $(window).height())
+		mixpanel.track("page_loaded", {"account" : @name, "source": source})
+		$("#gotham").on "click", => mixpanel.track("ad_click", {"client": "Gotham", "account" : @name, "source": source})
 	initializeQuestions: => @questions.push(new Post post) for post in $(".post")
 	initializeNewPostListener: =>
 		pusher = new Pusher('bffe5352760b25f9b8bd')
@@ -66,7 +67,7 @@ class Post
 		@answers.push(new Answer answer, @) for answer in @element.find(".answer")
 	answered: (correct) =>
 		window.feed.answered += 1
-		mixpanel.track("answered", {"count" : window.feed.answered})
+		mixpanel.track("answered", {"count" : window.feed.answered, "account" : window.feed.name, "source": source})
 		if correct
 			@element.css("background", "rgba(0, 59, 5, .2)")
 		else
@@ -93,4 +94,4 @@ class Answer
 			answer.element.off "click" for answer in @post.answers
 
 
-$ -> window.feed = new Feed
+$ -> window.feed = new Feed if $("#feed_id").length > 0
