@@ -20,6 +20,5 @@ class FeedsController < ApplicationController
 
   def scores
     @scores = Account.get_top_scorers(params[:id])
-    puts @scores.to_json
   end
 end
