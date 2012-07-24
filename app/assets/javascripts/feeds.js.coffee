@@ -11,6 +11,7 @@ class Feed
 		$("#show_more").on "click", => @showMore()
 		$(window).on "scroll", => @showMore() if ($(document).height() == $(window).scrollTop() + $(window).height())
 		mixpanel.track("page_loaded", {"account" : @name})
+		$("#gotham").on "click", => mixpanel.track("ad_click", {"client": "Gotham"})
 	initializeQuestions: => @questions.push(new Post post) for post in $(".post")
 	initializeNewPostListener: =>
 		pusher = new Pusher('bffe5352760b25f9b8bd')

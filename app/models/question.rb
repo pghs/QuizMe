@@ -34,9 +34,7 @@ class Question < ActiveRecord::Base
     return unless pq
     q_id = pq.question_id
     q = Question.find(q_id)
-    puts "TWEET: #{q.question}"
     Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
-    puts "TUMBLR: #{q.question}"
     Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
   end
 
@@ -90,9 +88,7 @@ class Question < ActiveRecord::Base
   end
 
   def self.import_studyegg_from_qb(egg_id, topic_name)
-    puts "yo son"
     egg = Question.get_studyegg_details(egg_id)
-    puts egg.to_json
     egg['chapters'].each do |ch|
       Question.save_lesson(ch, topic_name)
     end
@@ -107,7 +103,6 @@ class Question < ActiveRecord::Base
 
   def self.save_lesson(lesson, topic_name)
     @lesson_id = lesson['id'].to_i
-    puts @lesson_id
     if @lesson_id
       questions = Question.get_lesson_questions(@lesson_id)
       return if questions['questions'].nil?
