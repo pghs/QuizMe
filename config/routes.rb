@@ -9,6 +9,7 @@ Quizmemanager::Application.routes.draw do
   match 'auth/:provider/callback' => 'sessions#create'
   match "/signout" => "sessions#destroy", :as => :signout
 
+  match 'questions/import_data_from_qmm' => 'questions#import_data_from_qmm'
 
   resources :accounts
   resources :users

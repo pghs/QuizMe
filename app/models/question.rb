@@ -38,7 +38,6 @@ class Question < ActiveRecord::Base
     return unless pq
     q_id = pq.question_id
     q = Question.find(q_id)
-<<<<<<< HEAD
     puts "TWEET: #{q.text}"
     post = Post.quizme(current_acct, q.text, q.id)
     url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
@@ -48,10 +47,6 @@ class Question < ActiveRecord::Base
     Post.tweet(current_acct, q.text, url, "initial#{shift}", q.id) if current_acct.twitter_enabled?
     puts "TUMBLR: #{q.text}"
     Post.create_tumblr_post(current_acct, q.text, url, "initial#{shift}", q.id) if current_acct.tumblr_enabled?
-=======
-    Post.tweet(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.twi_oauth_token
-    Post.create_tumblr_post(current_acct, q.question, q.url, "initial#{shift}", q.id) if current_acct.tum_oauth_token
->>>>>>> ccdb0df3f34984fb4ccfb844d5bd81df19e83bb3
   end
 
 
@@ -115,6 +110,20 @@ class Question < ActiveRecord::Base
     lesson.each do |l|
       Question.save_lesson(l, topic_name)
     end
+  end
+
+  def self.import_data_from_qmm
+    url = URI.parse("http://localhost:3000/questions/export_all_question_data.json")
+    req = Net::HTTP::Get.new(url.path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    begin
+      questions = JSON.parse(res.body)
+    rescue
+      questions = nil
+    end
+    return questions
   end
 
   def self.save_lesson(lesson, topic_name)
