@@ -22,4 +22,8 @@
 				mixpanel.init("cc41ff876080a580c5d9ca257d189162");
 			- else
 				var mixpanel = new DummyMixpanel();
+				
+            var campaign = "#{@campaign}";
+            var source = "#{@source}";
+            var link_type = "#{@link_type}";				
 			
