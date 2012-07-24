@@ -83,9 +83,10 @@ class QuestionsController < ApplicationController
 
   def import_data_from_qmm
     questions = Question.import_data_from_qmm
-    qs = questions.first(100)
+    qs = questions
     qs.each do |q|
       real_q = Question.find_by_text(q['question']['question'])
+      next unless real_q
       real_q.update_attributes(:qb_lesson_id => q['question']['lesson_id'],
                                :qb_q_id => q['question']['q_id'])
 
