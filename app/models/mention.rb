@@ -24,7 +24,12 @@ class Mention < ActiveRecord::Base
 									""]
 		account = Account.find(self.post.account_id)
 		tweet = "@#{self.user.twi_screen_name} #{correct.sample} #{complement.sample}"
-		Post.tweet(account, tweet, self.post.question.url, 'cor', nil)
+		q = self.post.question
+		url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
+    if account.link_to_quizme
+      url = "http://studyegg-quizme.herokuapp.com/feeds/#{account.id}"
+    end
+		Post.tweet(account, tweet, url, 'cor', nil)
 	end
 
 	def respond_incorrect
@@ -38,7 +43,12 @@ class Mention < ActiveRecord::Base
 							]
 		account = Account.find(self.post.account_id)
 		tweet = "@#{self.user.twi_screen_name} #{incorrect.sample} Check the question and try it again!"
-		Post.tweet(account, tweet, self.post.question.url, 'inc', nil)
+		q = self.post.question
+		url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
+    if account.link_to_quizme
+      url = "http://studyegg-quizme.herokuapp.com/feeds/#{account.id}"
+    end
+		Post.tweet(account, tweet, url, 'inc', nil)
 	end
 
 	def respond_first
@@ -52,7 +62,12 @@ class Mention < ActiveRecord::Base
 							]
 		account = Account.find(self.post.account_id)
 		tweet = "#{fast.sample} @#{self.user.twi_screen_name} had the fastest right answer on that one!"
-		Post.tweet(account, tweet, self.post.question.url, 'fast', nil)
+		q = self.post.question
+		url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
+    if account.link_to_quizme
+      url = "http://studyegg-quizme.herokuapp.com/feeds/#{account.id}"
+    end
+		Post.tweet(account, tweet, url, 'fast', nil)
 	end
 
 
