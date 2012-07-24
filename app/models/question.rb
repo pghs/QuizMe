@@ -15,9 +15,10 @@ class Question < ActiveRecord::Base
     questions = Question.where("topic_id in (?) and id not in (?)", current_acct.topics.collect(&:id), recent_question_ids).includes(:answers)
     puts questions.count
     q = questions.sample
-    puts q.inspect
     queue = []
-    while queue.size < current_acct.posts_per_day
+    queue = questions if questions.size < current_acct.posts_per_day
+    i = 0
+    while queue.size < current_acct.posts_per_day and i < (questions.size*2)
       if q.is_tweetable? && !queue.include?(q)
         puts 'added'
         queue << q
@@ -26,7 +27,9 @@ class Question < ActiveRecord::Base
         puts 'finding new q'
         q = questions.sample
       end
+      i+=1
     end
+    puts "WARNING THE QUEUE FOR #{current_acct.twi_screen_name} WAS NOT FULLY FILLED. ONLY #{queue.size} of #{current_acct.posts_per_day} POSTS SCHEDULED" if queue.size < current_acct.posts_per_day
     PostQueue.enqueue_questions(current_acct, queue)
   end
 
@@ -121,6 +124,7 @@ class Question < ActiveRecord::Base
         new_q.topic_id = topic.id
         new_q.qb_lesson_id = @lesson_id
         new_q.qb_q_id = q['id']
+        new_q.save
         q['answers'].each do |a|
           Answer.create(:text => Question.clean_text(a['answer']),
                         :correct => a['correct'],
