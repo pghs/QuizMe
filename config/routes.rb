@@ -1,6 +1,7 @@
 Quizmemanager::Application.routes.draw do
   get "feeds/index"
 
+  match "feeds/:id/scores" => "feeds#scores"
   match "feeds/:id/more/:last_post_id" => "feeds#more"
   match "feeds/:id" => "feeds#show"
 
