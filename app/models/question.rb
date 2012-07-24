@@ -113,7 +113,7 @@ class Question < ActiveRecord::Base
   end
 
   def self.import_data_from_qmm
-    url = URI.parse("http://localhost:3000/questions/export_all_question_data.json")
+    url = URI.parse("http://quizmemanager.herokuapp.com/questions/export_all_question_data.json")
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
