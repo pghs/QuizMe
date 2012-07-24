@@ -12,13 +12,13 @@ class Post < ActiveRecord::Base
 	def self.shorten_url(url, source, lt, campaign, question_id, link_to_quizme=false)
 		authorize = UrlShortener::Authorize.new 'o_29ddlvmooi', 'R_4ec3c67bda1c95912185bc701667d197'
     shortener = UrlShortener::Client.new authorize
-    url = nil
+    short_url = nil
     if link_to_quizme
-      url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}#question_#{question_id}").urls
+      short_url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}#question_#{question_id}").urls
     else
-      url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}").urls
+      short_url = shortener.shorten("#{url}?s=#{source}&lt=#{lt}&c=#{campaign}").urls
     end
-    url
+    short_url
 	end
 
 	def self.tweet(current_acct, tweet, url, lt, question_id)
