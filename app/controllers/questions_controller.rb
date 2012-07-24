@@ -103,6 +103,9 @@ class QuestionsController < ApplicationController
           if p['post']['mentions']
             p['post']['mentions'].each do |m|
               u = User.find_or_create_by_twi_screen_name(m['mention']['user']['twi_screen_name'])
+              u.update_attributes(:twi_user_id => m['mention']['user']['twi_user_id'],
+                                  :twi_name => m['mention']['user']['twi_name'],
+                                  :twi_profile_img_url = m['mention']['user']["profile_img_url"])
               new_m = Mention.create(:user_id => u.id,
                                      :post_id => new_p.id,
                                      :text => m['mention']['text'],
