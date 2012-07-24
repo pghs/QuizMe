@@ -42,7 +42,4 @@ class MentionsController < ApplicationController
 	  end
 	end
 
-	def scores
-		render :json => Account.get_top_scorers(params[:id])
-	end
 end

@@ -17,4 +17,9 @@ class FeedsController < ApplicationController
     post = Post.find(params[:last_post_id])
     render :json => Account.find(params[:id]).posts.where("CREATED_AT > ? AND ID IS NOT ?", post.created_at, post.id).order(:created_at).limit(5).includes(:question => :answers).as_json(:include => {:question => {:include => :answers}})
   end
+
+  def scores
+    @scores = Account.get_top_scorers(params[:id])
+    puts @scores.to_json
+  end
 end
