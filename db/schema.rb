@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723214325) do
+ActiveRecord::Schema.define(:version => 20120724181728) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -48,23 +48,16 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
   end
 
   create_table "mentions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.text     "text"
-    t.boolean  "responded",                 :default => false
-    t.string   "twi_tweet_id"
-    t.string   "twi_in_reply_to_status_id"
-    t.datetime "sent_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "post_queues", :force => true do |t|
-    t.integer  "account_id"
-    t.integer  "index"
-    t.integer  "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "user_id"
+    t.integer   "post_id"
+    t.text      "text"
+    t.boolean   "responded",                 :default => false
+    t.string    "twi_tweet_id"
+    t.string    "twi_in_reply_to_status_id"
+    t.timestamp "sent_date"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.boolean   "correct"
   end
 
   create_table "post_queues", :force => true do |t|
@@ -108,28 +101,6 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
   end
 
   create_table "stats", :force => true do |t|
-<<<<<<< HEAD
-    t.string   "date"
-    t.integer  "followers"
-    t.integer  "followers_delta"
-    t.integer  "friends"
-    t.integer  "friends_delta"
-    t.integer  "tweets"
-    t.integer  "tweets_delta"
-    t.integer  "rts"
-    t.integer  "rts_today"
-    t.integer  "mentions"
-    t.integer  "mentions_today"
-    t.integer  "questions_answered"
-    t.integer  "questions_answered_today",      :default => 0
-    t.integer  "unique_active_users"
-    t.integer  "three_day_inactive_users"
-    t.integer  "one_week_inactive_users"
-    t.integer  "one_month_plus_inactive_users"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "account_id"
-=======
     t.string    "date"
     t.integer   "followers"
     t.integer   "followers_delta"
@@ -150,7 +121,6 @@ ActiveRecord::Schema.define(:version => 20120723214325) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.integer   "account_id"
->>>>>>> ccdb0df3f34984fb4ccfb844d5bd81df19e83bb3
   end
 
   create_table "topics", :force => true do |t|

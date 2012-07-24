@@ -1,0 +1,17 @@
+-twitter = "http://www.twitter.com"
+- content_for :title, "Leaderboard"
+
+#scores
+	%h2.title
+		%a{:href => "#{twitter}/#{@scores[:name]}", :target => "_blank"}= "Leaderboard for @#{@scores[:name]}:"
+	#header
+		%p.name Handle
+		%p.correct # Correct
+	#list
+		- if @scores[:scores]
+			- @scores[:scores].each do |score|
+				.score{:class => cycle("odd", "even")}
+					%a.name{:href => "#{twitter}/#{score[:handle]}", :target => "_blank"}= "@#{score[:handle]}"
+					%p.correct= score[:correct]
+		- else
+			Nobody has answered yet!
