@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.dm(current_acct, tweet, url, lt, question_id, user_id)
-  	short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name) if url
+  	short_url = Post.shorten_url(url, 'twi', lt, current_acct.twi_screen_name, question_id) if url
     res = current_acct.twitter.direct_message_create(user_id, "#{tweet} #{short_url if short_url}")
     Post.create(:account_id => current_acct.id,
                 :question_id => question_id,

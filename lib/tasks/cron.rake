@@ -40,7 +40,7 @@ task :save_stats => :environment do
 end
 
 task :dm_new_followers => :environment do
-	account = Account.first
+	account = Account.find(4)
 	Post.dm_new_followers(account)
 	sleep(10)
 end
