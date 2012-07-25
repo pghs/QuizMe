@@ -139,9 +139,10 @@ class Question < ActiveRecord::Base
         new_q.qb_q_id = q['id']
         new_q.save
         q['answers'].each do |a|
-          Answer.create(:text => Question.clean_text(a['answer']),
-                        :correct => a['correct'],
-                        :question_id => new_q.id)
+          ans = Answer.find_or_create_by_text(:text => Question.clean_text(a['answer']))
+          ans.correct = a['correct']
+          ans.question_id = new_q.id
+          ans.save
         end
       end
     end
