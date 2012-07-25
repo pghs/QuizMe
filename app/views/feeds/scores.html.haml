@@ -2,8 +2,9 @@
 - content_for :title, "Leaderboard"
 
 #scores
-	%h2.title
-		%a{:href => "#{twitter}/#{@scores[:name]}", :target => "_blank"}= "Leaderboard for @#{@scores[:name]}:"
+	%h3.title
+		Leaderboard for 
+		%a{:href => "#{twitter}/#{@scores[:name]}", :target => "_blank"}= "@#{@scores[:name]}:"
 	#header
 		%p.name Handle
 		%p.correct # Correct
