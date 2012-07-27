@@ -1,3 +1,61 @@
 // Place all the styles related to the accounts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.stats{
+	.widget{
+		background: #e1e1e1;
+		border-radius: 5px; // 5px 0px 0px; 
+		-moz-border-radius: 5px; // 5px 0px 0px; 
+		-webkit-border-radius: 5px; // 5px 0px 0px;
+		border: 0px;
+		
+	}
+	.widget.header{
+		margin-bottom:10px;
+		//padding:5px 5px 1px 5px;
+		height:100px;
+		.heading{
+			margin: 15px 0px 25px 0px;
+			text-align:center;
+			h2{
+				font-size:16px;
+				line-height:16px;
+				color:#454545;
+			}
+		}
+		.data{
+			text-align:center;
+			margin:10px 0px;
+		}
+		.badge{
+			font-size:32px;
+			margin:10px 0;
+		}
+	}
+	.widget.small, .widget.large{
+		//height:200px;
+		margin:10px !important;
+		padding:5px 5px 1px 5px;
+		h2{
+			padding:2px 7px;
+			margin-bottom:5px;
+		}
+	}
+	.widget.small{
+		float:left;
+	}
+
+	.widget.large{
+		float:right;
+	}
+
+	.blank-cell{
+		background: #E1E1E1;
+		border: 1px solid #E1E1E1;
+	}
+
+	h2{
+		color:#858585;
+	}
+}

@@ -76,13 +76,13 @@ class AccountsController < ApplicationController
   end
 
   def stats
-    @account = Account.find(params[:id])
-    @stats = @account.stats
+    @headsup_stats = Stat.get_headsup
   end
 
-  def rts
+  def account_rts
     @account = Account.find(params[:id])
-    @rts = @account.twitter.retweets_of_me({:count => 50})
+
+    @rts = @account.twitter.retweets_of_me({:count => 100})
     #raise @rts.first.to_yaml
     @rts.each do |r|
       puts r.text
@@ -90,5 +90,4 @@ class AccountsController < ApplicationController
       puts r.user.screen_name
     end
   end
-
 end

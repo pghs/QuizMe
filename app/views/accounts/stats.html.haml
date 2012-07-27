@@ -1,60 +1,61 @@
-.row
-	%h2= "Account Stats for #{@account.twi_screen_name}"
-	%table.table-striped.table-condensed
-		%thead
-			%tr
-				%td date
-				%td followers
-				%td follower change
-				%td friends
-				%td friend change
-				%td tweets
-				%td tweets sent
-		%tbody
-			-@stats.each do |s|
-				%tr
-					%td= s.date
-					%td= s.followers
-					%td= s.followers_delta
-					%td= s.friends
-					%td= s.friends_delta
-					%td= s.tweets
-					%td= s.tweets_delta
+= javascript_include_tag "https://www.google.com/jsapi"
 
-	%h2 Interations
-	%table.table-striped.table-condensed
-		%thead
-			%tr
-				%td date
-				%td total rts
-				%td rts today
-				%td total mentions
-				%td mentions today
-				%td questions answered
-				%td unique active users
-		%tbody
-			-@stats.each do |s|
-				%tr
-					%td= s.date
-					%td= s.rts
-					%td= s.rts_today
-					%td= s.mentions
-					%td= s.mentions_today
-					%td= s.questions_answered
-					%td= s.unique_active_users
+.stats
+	.row.widget.header
+		.row.heading
+			.span2.headsup
+				%h2 Followers
+			.span2.headsup
+				%h2 Unique Posts
+			.span2.headsup
+				%h2 Questions Answered
+			.span2.headsup
+				%h2 Daily Active Users
+			.span2.headsup
+				%h2 RTs
+			.span2.headsup
+				%h2 Churn
+		.row.data
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+			.span2.headsup
+				%span.badge 123
+				%span.badge.badge-success +32
+	.row
+		.span4.widget.small
+			%h2 Questions Answered
+			#questions-answered-graph
+		.span8.widget.large
+			%h2 Weekly Retention: Twitter
+			#weekly-retention-twitter-graph
 
-	%h2 Inactivity Stats
-	%table.table-striped.table-condensed
-		%thead
-			%tr
-				%td date
-				%td 3 day inactives
-				%td 1 week inactives
-				%td 1 month inactives
-		%tbody
-			-@stats.each do |s|
-				%tr
-					%td= s.date
-					%td= s.three_day_inactive_users
-					%td= s.one_week_inactive_users
-					%td= s.one_month_plus_inactive_users
+		.span4.widget.small
+			%h2 Daily Active Users
+			#daily-active-users-graph
+		.span8.widget.large
+			%h2 Weekly Retention: StudyEgg
+			#weekly-retention-studyegg-graph
+
+		.span4.widget.small
+			%h2 Retweets
+			#retweets-graph
+		.span8.widget.large
+			%h2 Daily Retention: Twitter
+			#daily-retention-twitter-graph
+
+		.span8.offset4.widget.large
+			%h2 Daily Retention: StudyEgg
+			#daily-retention-studyegg-graph

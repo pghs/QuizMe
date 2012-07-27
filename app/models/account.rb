@@ -2,6 +2,7 @@ class Account < ActiveRecord::Base
 	has_many :posts
 	has_many :topics, :through => :accountstopics
 	has_many :accountstopics
+	has_many :stats
 
 	def twitter_enabled?
 		return true if self.twi_oauth_token and self.twi_oauth_secret

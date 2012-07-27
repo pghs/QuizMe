@@ -11,6 +11,7 @@ Quizmemanager::Application.routes.draw do
   match "/signout" => "sessions#destroy", :as => :signout
 
   match 'questions/import_data_from_qmm' => 'questions#import_data_from_qmm'
+  match '/stats' => 'accounts#stats'
 
   resources :accounts
   resources :users

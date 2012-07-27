@@ -15,9 +15,9 @@ class Stat < ActiveRecord::Base
 		friends_delta = friends - yesterday.friends
 		tweets = twi_account.tweet_count
 		tweets_delta = tweets - yesterday.tweets
-		rts_today = client.retweets_of_me({:count => 200, :since_id => last_post_id}).count
+		rts_today = client.retweets_of_me({:count => 100, :since_id => last_post_id}).count
 		rts = rts_today + yesterday.rts
-		mentions_today = client.mentions({:count => 200, :since_id => last_post_id}).count
+		mentions_today = client.mentions({:count => 100, :since_id => last_post_id}).count
 		mentions = mentions_today + yesterday.mentions
 		today.questions_answered_today = 0
 		questions_answered = today.questions_answered_today + yesterday.questions_answered
