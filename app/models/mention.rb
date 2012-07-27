@@ -26,10 +26,10 @@ class Mention < ActiveRecord::Base
 		tweet = "@#{self.user.twi_screen_name} #{correct.sample} #{complement.sample}"
 		q = self.post.question
 		url = "http://www.studyegg.com/review/#{q.qb_lesson_id}/#{q.qb_q_id}"
-    if account.link_to_quizme
-      url = "http://studyegg-quizme.herokuapp.com/feeds/#{account.id}"
-    end
-		Post.tweet(account, tweet, url, 'cor', nil)
+		if account.link_to_quizme
+			url = "http://studyegg-quizme.herokuapp.com/feeds/#{account.id}"
+		end
+		Post.tweet(account, tweet, url, 'cor', q.id)
 	end
 
 	def respond_incorrect
